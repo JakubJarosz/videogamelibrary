@@ -57,9 +57,15 @@ const loginUser = async (req, res) => {
         {},
         (err, token) => {
           if (err) {
-            console.log("JWT Sign Error", err)
+            console.log("JWT Sign Error", err);
           }
-          res.cookie("token", token).json(user);
+          res
+            .cookie("token", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "Strict",
+            })
+            .json(user);
         }
       );
     } else {
@@ -72,8 +78,23 @@ const loginUser = async (req, res) => {
   }
 };
 
+const fetchUser = (req, res) => {
+  res.json({ message: "Access granted", user: req.user });
+};
+
+const logOut = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  res.json({ message: "Logged out successfully" });
+};
+
 module.exports = {
   test,
   registerUser,
   loginUser,
+  fetchUser,
+  logOut
 };
