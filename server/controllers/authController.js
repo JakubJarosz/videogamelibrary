@@ -10,18 +10,18 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name) {
-      res.json({
+      res.status(400).json({
         error: "name is required",
       });
     }
     if (!password || password.length < 6) {
-      return res.json({
+      return res.status(400).json({
         error: "Password is required and should be at least 6 characters long",
       });
     }
     const emailExist = await User.findOne({ email });
     if (emailExist) {
-      return res.json({
+      return res.status(409).json({
         error: "Email is taken already",
       });
     }
@@ -43,7 +43,7 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({
+      return res.status(401).json({
         error: "No user found",
       });
     }
@@ -69,7 +69,7 @@ const loginUser = async (req, res) => {
         }
       );
     } else {
-      res.json({
+      res.status(401).json({
         error: "Wrong password",
       });
     }
@@ -79,7 +79,7 @@ const loginUser = async (req, res) => {
 };
 
 const fetchUser = (req, res) => {
-  res.json({ message: "Access granted", user: req.user });
+  res.status(200).json({ message: "Access granted", user: req.user });
 };
 
 const logOut = (req, res) => {
@@ -88,7 +88,7 @@ const logOut = (req, res) => {
     secure: true,
     sameSite: "Strict",
   });
-  res.json({ message: "Logged out successfully" });
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 module.exports = {

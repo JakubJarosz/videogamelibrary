@@ -2,33 +2,27 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux"
+import { loginUser } from "../state/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const loginUser = async (e) => {
+  const loginuser = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-    try {
-      const { data } = await axios.post("/login", {
-        email,
-        password,
-      });
-      if(data.error) {
-        toast.error(data.error)
-      } else {
-        setFormData({});
-        navigate("/")
-      }
-    } catch (error) {}
+   const result = await dispatch(loginUser(formData));
+   if (result.meta.requestStatus === "fulfilled") {
+    navigate("/")
+   }
   };
-
+ console.log(formData)
   return (
     <div>
-      <form onSubmit={loginUser}>
+      <form onSubmit={loginuser}>
         <label>Email</label>
         <input
           type="text"
