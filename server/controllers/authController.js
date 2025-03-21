@@ -56,11 +56,12 @@ const loginUser = async (req, res) => {
         process.env.JWT_SECRET,
         {},
         (err, token) => {
-          if (err) throw err;
+          if (err) {
+            console.log("JWT Sign Error", err)
+          }
           res.cookie("token", token).json(user);
         }
       );
-      res.json("Password match");
     } else {
       res.json({
         error: "Wrong password",
