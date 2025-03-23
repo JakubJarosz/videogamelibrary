@@ -1,29 +1,24 @@
-import React from 'react'
-import axios from "axios"
+import React from "react";
+import axios from "axios";
 
 const Home = () => {
-  
-
-  const handleClick = async() => {
+  const handleClick = async () => {
     try {
       const response = await axios.get("/games", {
-        params: {
-        
-  
-        }
-      })
-      console.log(response.data.results)
+        params: {},
+      });
+      console.log(response.data.results);
     } catch (error) {
-    console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div>
       Home
       <button onClick={handleClick}>ssss</button>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
