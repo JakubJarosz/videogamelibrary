@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector  } from "react-redux";
 import { fetchUser } from "./state/authSlice";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -19,9 +19,11 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const isLoading = useSelector((state) => state.auth.loading);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (location.pathname !== "/login" && location.pathname !== "/register") {
+    if (!user && location.pathname !== "/login" && location.pathname !== "/register") {
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
@@ -30,12 +32,15 @@ function App() {
           }
         });
     }
-  }, [dispatch, navigate, location.pathname]);
+  }, [dispatch, navigate, location.pathname, user]);
+
+  if (isLoading) {
+    return <GlobalLoading />;
+  }
   return (
     <div className="App">
       <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
       <GlobalError />
-      <GlobalLoading />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

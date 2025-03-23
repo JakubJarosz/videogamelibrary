@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
+const fetchGames = require("../controllers/fetchgamesController")
 const {
   test,
   registerUser,
@@ -18,10 +19,16 @@ router.use(
   })
 );
 
+// test route
 router.get("/", test);
+
+// authentication routes
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logOut)
 router.get("/profile", authenticateUser, fetchUser);
+
+// RAWG API routes
+router.get("/games", authenticateUser, fetchGames)
 
 module.exports = router;
