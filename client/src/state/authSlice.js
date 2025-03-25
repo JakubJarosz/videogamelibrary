@@ -43,6 +43,18 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   return null;
 });
 
+export const updateTheme = createAsyncThunk(
+  "auth/updateTheme",
+  async (newTheme, {rejectWithValue}) => {
+    try {
+      await axios.post("/theme", {theme: newTheme});
+      return newTheme
+    } catch (error){
+      return rejectWithValue("Failed to update theme");
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -75,6 +87,11 @@ const authSlice = createSlice({
       .addCase(fetchUser.rejected, (state) => {
         state.loading = false;
         state.user = null;
+      })
+      .addCase(updateTheme.fulfilled, (state, action) => {
+       if (state.user) {
+        state.user.theme = action.payload
+       }
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;

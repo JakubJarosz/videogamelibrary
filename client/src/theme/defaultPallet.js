@@ -5,7 +5,7 @@ const lightPalette = {
       main: "#1976d2", // Blue
     },
     secondary: {
-      main: "#ff9800", // Orange
+      main: "#orange", // Orange
     },
     background: {
       default: "#f5f5f5",
@@ -37,5 +37,5 @@ const lightPalette = {
 
   export const getTheme = (darkMode) =>
     createTheme({
-      palette: darkMode ? darkPalette : lightPalette,
+      palette: darkMode === "dark" ? darkPalette : lightPalette,
     });

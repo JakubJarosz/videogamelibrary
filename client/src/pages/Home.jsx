@@ -19,6 +19,7 @@ const Home = () => {
     <div>
       Home
       <button onClick={handleClick}>fetchGames</button>
+      <button>handleSSSSF</button>
     </div>
   );
 };
