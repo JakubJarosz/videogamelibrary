@@ -2,10 +2,10 @@ import {createTheme} from "@mui/material/styles";
 
 const lightPalette = {
     primary: {
-      main: "#1976d2", // Blue
+      main: "#1976d2", 
     },
     secondary: {
-      main: "#orange", // Orange
+      main: "#C13F53", 
     },
     background: {
       default: "#f5f5f5",
@@ -19,10 +19,10 @@ const lightPalette = {
   
   const darkPalette = {
     primary: {
-      main: "#90caf9", // Light Blue
+      main: "#90caf9", 
     },
     secondary: {
-      main: "#ffb74d", // Light Orange
+      main: "#ffb74d",
     },
     background: {
       default: "#121212",

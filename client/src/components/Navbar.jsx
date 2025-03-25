@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <div>
       <button onClick={handleLogout}>Logout</button>
-      <Button  color="secondary"onClick={toggleDarkMode}>toggleDarkTheme {darkMode}</Button>
+      <Button  color="secondary" variant="contained" onClick={toggleDarkMode}>toggleDarkTheme {darkMode}</Button>
     </div>
   )
 }
