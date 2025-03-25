@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
 
     if (match) {
       jwt.sign(
-        { email: user.email, id: user._id, name: user.name },
+        { email: user.email, id: user._id, name: user.name, theme: user.theme },
         process.env.JWT_SECRET,
         {},
         (err, token) => {

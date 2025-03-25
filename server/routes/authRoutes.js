@@ -10,6 +10,7 @@ const {
   logOut
 } = require("../controllers/authController");
 const authenticateUser = require("../helpers/authMiddleware");
+const changeTheme = require("../controllers/themeController")
 
 //middleare
 router.use(
@@ -27,6 +28,9 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logOut)
 router.get("/profile", authenticateUser, fetchUser);
+
+// theme change
+router.post("/theme", authenticateUser, changeTheme)
 
 // RAWG API routes
 router.get("/games", authenticateUser, fetchGames)

@@ -13,10 +13,12 @@ const Home = () => {
     }
   };
 
+
+
   return (
     <div>
       Home
-      <button onClick={handleClick}>ssss</button>
+      <button onClick={handleClick}>fetchGames</button>
     </div>
   );
 };
