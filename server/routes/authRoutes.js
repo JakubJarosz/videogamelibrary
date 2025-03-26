@@ -11,6 +11,7 @@ const {
 } = require("../controllers/authController");
 const authenticateUser = require("../helpers/authMiddleware");
 const changeTheme = require("../controllers/themeController")
+const {fetchSteamProfile, addSteamToDataBase} = require("../controllers/fetchsteamdataController")
 
 //middleare
 router.use(
@@ -30,9 +31,13 @@ router.get("/logout", logOut)
 router.get("/profile", authenticateUser, fetchUser);
 
 // theme change
-router.post("/theme", authenticateUser, changeTheme)
+router.post("/theme", authenticateUser, changeTheme);
 
 // RAWG API routes
-router.get("/games", authenticateUser, fetchGames)
+router.get("/games", authenticateUser, fetchGames);
+
+// Steam API
+router.get("/steamProfile", authenticateUser, fetchSteamProfile)
+router.post("/connect-steam", authenticateUser, addSteamToDataBase)
 
 module.exports = router;

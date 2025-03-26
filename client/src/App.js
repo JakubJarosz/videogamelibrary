@@ -11,6 +11,7 @@ import GlobalLoading from "./components/GlobalLoading";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/PrivateRoute";
+import User from "./pages/User";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -50,6 +51,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Home />
+              </PrivateRoute>
+            }
+          />
+           <Route
+            path="/user"
+            element={
+              <PrivateRoute>
+                <User />
               </PrivateRoute>
             }
           />

@@ -1,5 +1,6 @@
 const axios = require("axios");
 
+
 const fetchGames = async (req, res) => {
   try {
     const {
@@ -32,5 +33,7 @@ const fetchGames = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch games" });
   }
 };
+
+
 
 module.exports = fetchGames;
