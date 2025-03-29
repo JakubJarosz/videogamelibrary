@@ -28,8 +28,29 @@ const Register = () => {
   const [errors, setErrors] = useState({
     name: "",
     email: "",
-    password: ""
-  })
+    password: "",
+  });
+
+  const checkIfError = (field) => {
+    if (errors[field] === "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (value !== "") {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "", // Clear the error for the specific field
+      }));
+    }
+    
+  };
   const registerUser = async (e) => {
     e.preventDefault();
     const { name, email, password } = formData;
@@ -37,8 +58,20 @@ const Register = () => {
     if (formData.name === "") {
       setErrors((prev) => ({
         ...prev,
-        name: "Enter nickname"
-      }))
+        name: "Enter nickname",
+      }));
+    }
+    if (formData.email === "") {
+      setErrors((prev) => ({
+        ...prev,
+        email: "Enter email",
+      }));
+    }
+    if (formData.password === "") {
+      setErrors((prev) => ({
+        ...prev,
+        password: "Enter password",
+      }));
     }
     try {
       const { data } = await axios.post("/register", {
@@ -57,7 +90,7 @@ const Register = () => {
       console.log(error);
     }
   };
-console.log(formData)
+  console.log(formData);
   return (
     <Grid
       container
@@ -79,10 +112,13 @@ console.log(formData)
             Register
           </Typography>
           <TextField
+            error={checkIfError("name")}
+            name="name"
+            helperText={errors.name}
             label="Nickname"
             variant="filled"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={handleChange}
             slotProps={{
               input: {
                 startAdornment: (
@@ -94,13 +130,14 @@ console.log(formData)
             }}
           />
           <TextField
+            error={checkIfError("email")}
+            name="email"
+            helperText={errors.email}
             id="standard-password-input"
             label="Email"
             variant="filled"
             value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            onChange={handleChange}
             slotProps={{
               input: {
                 startAdornment: (
@@ -112,13 +149,14 @@ console.log(formData)
             }}
           />
           <TextField
+            error={checkIfError("password")}
+            name="password"
+            helperText={errors.password}
             label="Password"
             type="password"
             variant="filled"
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            onChange={handleChange}
             slotProps={{
               input: {
                 startAdornment: (

@@ -18,13 +18,13 @@ const Navbar = () => {
   };
   return (
     <div>
-      {/* <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
       <Button color="secondary" variant="contained" onClick={toggleDarkMode}>
         toggleDarkTheme {darkMode}
       </Button>
       <Box>
 
-      </Box> */}
+      </Box>
       <Box>
         <AppBar position="static">
           <Toolbar>

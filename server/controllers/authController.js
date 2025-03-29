@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name) {
-      res.status(400).json({
+     return res.status(400).json({
         error: "name is required",
       });
     }
