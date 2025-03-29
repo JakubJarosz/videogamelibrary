@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  Link
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import EmailIcon from "@mui/icons-material/Email";
@@ -99,23 +100,29 @@ const Register = () => {
       container
       justifyContent="center"
       alignItems="center"
-      sx={{ height: "100vh" }}
+      sx={{ height: "100vh", backgroundColor: "#8bc6f7"}}
     >
-      <Grid item>
+      <Grid item  xs={12} sm={6} md={4}>
         <Box
           component="form"
           onSubmit={registerUser}
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: 350,
+            width: 450,
+            backgroundColor: "#ffff",
+            p: "0 35px",
+            borderRadius: "10px",
+            boxShadow: 3
           }}
         >
-          <Typography variant="h5" textAlign="center">
+          <Typography variant="h4" textAlign="center" sx={{mt: "40px", mb: "30px"}}>
             Register
           </Typography>
           {["name", "email", "password"].map((field) => (
+             <Box sx={{mb:"30px"}}>
             <TextField
+            sx={{width: "100%"}}
               key={field}
               name={field}
               label={field.charAt(0).toUpperCase() + field.slice(1)}
@@ -144,10 +151,14 @@ const Register = () => {
                 },
               }}
             ></TextField>
+            </Box>
           ))}
           <Button type="submit" variant="contained">
             Register
           </Button>
+          <Box display="flex" justifyContent="center" sx={{mt: "25px", mb: "30px"}}>
+          <Typography variant="h7">Already have an account ?<Link>Login</Link></Typography>
+          </Box>
         </Box>
       </Grid>
     </Grid>

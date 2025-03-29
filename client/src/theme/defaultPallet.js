@@ -38,4 +38,7 @@ const lightPalette = {
   export const getTheme = (darkMode) =>
     createTheme({
       palette: darkMode === "dark" ? darkPalette : lightPalette,
+      typography: {
+        fontFamily: "'Roboto', sans-serif",
+      },
     });
