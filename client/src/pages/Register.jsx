@@ -31,48 +31,51 @@ const Register = () => {
     password: "",
   });
 
-  const checkIfError = (field) => {
-    if (errors[field] === "") {
-      return false;
-    } else {
-      return true;
-    }
-  };
+ const [visible, setVisible] = useState(false);
+
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    if (value !== "") {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "", // Clear the error for the specific field
-      }));
-    }
-    
+    if (value) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((field) => {
+      const value = formData[field].trim();
+      if (!value) {
+        newErrors[field] = `Enter ${field}`;
+        return;
+      }
+      switch (field) {
+        case "email":
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            newErrors[field] = "Enter a valid email address";
+          }
+          break;
+
+        case "password":
+          if (value.length < 6) {
+            newErrors[field] = "Password must be at least 6 characters";
+          }
+          break;
+        case "name":
+          if (value.length < 3) {
+            newErrors[field] = "Password must be at least 3 characters";
+          }
+          break;
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const registerUser = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     const { name, email, password } = formData;
-    // validation checks
-    if (formData.name === "") {
-      setErrors((prev) => ({
-        ...prev,
-        name: "Enter nickname",
-      }));
-    }
-    if (formData.email === "") {
-      setErrors((prev) => ({
-        ...prev,
-        email: "Enter email",
-      }));
-    }
-    if (formData.password === "") {
-      setErrors((prev) => ({
-        ...prev,
-        password: "Enter password",
-      }));
-    }
     try {
       const { data } = await axios.post("/register", {
         name,
@@ -83,14 +86,14 @@ const Register = () => {
         toast.error(data.error);
       } else {
         setFormData({});
-        toast.success("Login Successful. Welcome!");
+        toast.success("Registration Successful. Welcome!");
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(formData);
+  
   return (
     <Grid
       container
@@ -111,70 +114,38 @@ const Register = () => {
           <Typography variant="h5" textAlign="center">
             Register
           </Typography>
-          <TextField
-            error={checkIfError("name")}
-            name="name"
-            helperText={errors.name}
-            label="Nickname"
-            variant="filled"
-            value={formData.name}
-            onChange={handleChange}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            error={checkIfError("email")}
-            name="email"
-            helperText={errors.email}
-            id="standard-password-input"
-            label="Email"
-            variant="filled"
-            value={formData.email}
-            onChange={handleChange}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmailIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            error={checkIfError("password")}
-            name="password"
-            helperText={errors.password}
-            label="Password"
-            type="password"
-            variant="filled"
-            value={formData.password}
-            onChange={handleChange}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <HttpsIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <VisibilityIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <Button type="submit" variant="contained" disabled={false}>
+          {["name", "email", "password"].map((field) => (
+            <TextField
+              key={field}
+              name={field}
+              label={field.charAt(0).toUpperCase() + field.slice(1)}
+              type={field === "password" && !visible ? "password" : "text"}
+              variant="filled"
+              value={formData[field]}
+              onChange={handleChange}
+              error={Boolean(errors[field])}
+              helperText={errors[field]}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {field === "name" && <AccountCircle />}
+                      {field === "email" && <EmailIcon />}
+                      {field === "password" && <HttpsIcon />}
+                    </InputAdornment>
+                  ),
+                  endAdornment: field === "password" && (
+                    <InputAdornment position="end">
+                      <IconButton edge="end" onClick={(() => setVisible((prev) => !prev))}>
+                        {visible ? <VisibilityIcon /> : <VisibilityOffIcon/>}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            ></TextField>
+          ))}
+          <Button type="submit" variant="contained">
             Register
           </Button>
         </Box>
