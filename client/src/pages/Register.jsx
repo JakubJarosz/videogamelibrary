@@ -10,7 +10,7 @@ import {
   InputAdornment,
   IconButton,
   Button,
-  Link
+  Link,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import EmailIcon from "@mui/icons-material/Email";
@@ -32,9 +32,7 @@ const Register = () => {
     password: "",
   });
 
- const [visible, setVisible] = useState(false);
-
- 
+  const [visible, setVisible] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,15 +92,15 @@ const Register = () => {
       console.log(error);
     }
   };
-  
+
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
-      sx={{ height: "100vh", backgroundColor: "#8bc6f7"}}
+      sx={{ height: "100vh", backgroundColor: "#8bc6f7" }}
     >
-      <Grid item  xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Box
           component="form"
           onSubmit={registerUser}
@@ -113,51 +111,64 @@ const Register = () => {
             backgroundColor: "#ffff",
             p: "0 35px",
             borderRadius: "10px",
-            boxShadow: 3
+            boxShadow: 3,
           }}
         >
-          <Typography variant="h4" textAlign="center" sx={{mt: "40px", mb: "30px"}}>
+          <Typography
+            variant="h4"
+            textAlign="center"
+            sx={{ mt: "40px", mb: "30px" }}
+          >
             Register
           </Typography>
           {["name", "email", "password"].map((field) => (
-             <Box sx={{mb:"30px"}}>
-            <TextField
-            sx={{width: "100%"}}
-              key={field}
-              name={field}
-              label={field.charAt(0).toUpperCase() + field.slice(1)}
-              type={field === "password" && !visible ? "password" : "text"}
-              variant="filled"
-              value={formData[field]}
-              onChange={handleChange}
-              error={Boolean(errors[field])}
-              helperText={errors[field]}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      {field === "name" && <AccountCircle />}
-                      {field === "email" && <EmailIcon />}
-                      {field === "password" && <HttpsIcon />}
-                    </InputAdornment>
-                  ),
-                  endAdornment: field === "password" && (
-                    <InputAdornment position="end">
-                      <IconButton edge="end" onClick={(() => setVisible((prev) => !prev))}>
-                        {visible ? <VisibilityIcon /> : <VisibilityOffIcon/>}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
-            ></TextField>
+            <Box sx={{ mb: "30px" }}>
+              <TextField
+                sx={{ width: "100%" }}
+                key={field}
+                name={field}
+                label={field.charAt(0).toUpperCase() + field.slice(1)}
+                type={field === "password" && !visible ? "password" : "text"}
+                variant="filled"
+                value={formData[field]}
+                onChange={handleChange}
+                error={Boolean(errors[field])}
+                helperText={errors[field]}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {field === "name" && <AccountCircle />}
+                        {field === "email" && <EmailIcon />}
+                        {field === "password" && <HttpsIcon />}
+                      </InputAdornment>
+                    ),
+                    endAdornment: field === "password" && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          onClick={() => setVisible((prev) => !prev)}
+                        >
+                          {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              ></TextField>
             </Box>
           ))}
           <Button type="submit" variant="contained">
             Register
           </Button>
-          <Box display="flex" justifyContent="center" sx={{mt: "25px", mb: "30px"}}>
-          <Typography variant="h7">Already have an account ?<Link>Login</Link></Typography>
+          <Box
+            display="flex"
+            justifyContent="center"
+            sx={{ mt: "25px", mb: "30px" }}
+          >
+            <Typography variant="h7">
+              Already have an account ?<Link component="button" onClick={(() => navigate("/login"))}>Login</Link>
+            </Typography>
           </Box>
         </Box>
       </Grid>
