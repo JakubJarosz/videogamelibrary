@@ -2,6 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  InputAdornment,
+  IconButton,
+  Button,
+} from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import EmailIcon from "@mui/icons-material/Email";
+import HttpsIcon from "@mui/icons-material/Https";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,9 +24,22 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
   const registerUser = async (e) => {
     e.preventDefault();
     const { name, email, password } = formData;
+    // validation checks
+    if (formData.name === "") {
+      setErrors((prev) => ({
+        ...prev,
+        name: "Enter nickname"
+      }))
+    }
     try {
       const { data } = await axios.post("/register", {
         name,
@@ -30,36 +57,91 @@ const Register = () => {
       console.log(error);
     }
   };
-
+console.log(formData)
   return (
-    <div>
-      <form onSubmit={registerUser}>
-        <label>Name</label>
-        <input
-          type="text"
-          placeholder="enter name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        />
-        <label>Email</label>
-        <input
-          type="text"
-          placeholder="enter email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        />
-        <label>Password</label>
-        <input
-          type="text"
-          placeholder="enter password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{ height: "100vh" }}
+    >
+      <Grid item>
+        <Box
+          component="form"
+          onSubmit={registerUser}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: 350,
+          }}
+        >
+          <Typography variant="h5" textAlign="center">
+            Register
+          </Typography>
+          <TextField
+            label="Nickname"
+            variant="filled"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <TextField
+            id="standard-password-input"
+            label="Email"
+            variant="filled"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="filled"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <HttpsIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <VisibilityIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <Button type="submit" variant="contained" disabled={false}>
+            Register
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
