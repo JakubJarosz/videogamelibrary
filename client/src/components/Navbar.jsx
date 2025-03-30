@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../theme/ThemeContext";
 import { logoutUser } from "../state/authSlice";
 import { useDispatch } from "react-redux";
@@ -17,52 +17,94 @@ import {
   ListItemIcon,
   Typography,
   Avatar,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import GamesIcon from "@mui/icons-material/Games";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 const drawerWidth = 250;
 const collapsedWidth = 90;
 
-const Navbar = ({ open, toggleDrawer }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    navigate("/login");
-  };
-
+const Navbar = ({
+  open,
+  toggleDrawer,
+  handleClickMenu,
+  handleCloseMenu,
+  handleLogout,
+  openMenu,
+  anchorEl,
+  darkMode,
+  toggleDarkMode,
+}) => {
   return (
     <Box sx={{ display: "flex" }}>
       {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
-          left: open ? `${drawerWidth}px` : `${collapsedWidth}px`, 
+          left: open ? `${drawerWidth}px` : `${collapsedWidth}px`,
           height: 64,
           width: `calc(100% - ${open ? drawerWidth : collapsedWidth}px)`,
         }}
       >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           {/* Drawer toggle button */}
-          <IconButton onClick={toggleDrawer} sx={{ display: !open ? "flex" : "none" }}>
+          <IconButton
+            onClick={toggleDrawer}
+            sx={{ display: !open ? "flex" : "none" }}
+          >
             <MenuIcon />
           </IconButton>
 
           {/* Logo */}
-          <Typography variant="h6" noWrap sx={{ textAlign: "left", flexGrow: 1, ml: "15px" }}>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{ textAlign: "left", flexGrow: 1, ml: "15px" }}
+          >
             Logo
           </Typography>
-
+          {/* DarkModeToggle positioned absolutely */}
+          <IconButton
+            sx={{ position: "absolute", right: 116 }}
+            onClick={toggleDarkMode}
+          >
+            {darkMode === "dark" && <DarkModeIcon />}
+            {darkMode === "light" && <DarkModeOutlinedIcon />}
+          </IconButton>
           {/* Avatar positioned absolutely */}
-          <IconButton sx={{ position: "absolute", right: 16 }}>
+          <IconButton sx={{ position: "absolute", right: 56 }}>
             <Avatar>H</Avatar>
           </IconButton>
+          {/* Menu positioned absolutely */}
+          <IconButton
+            sx={{ position: "absolute", right: 16 }}
+            onClick={handleClickMenu}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleCloseMenu}
+            sx={{ mt: "15px" }}
+          >
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
 
