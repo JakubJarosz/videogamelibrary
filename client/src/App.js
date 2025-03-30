@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector  } from "react-redux";
 import { fetchUser } from "./state/authSlice";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
+import "./styles/index.css"
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";

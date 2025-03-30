@@ -1,5 +1,8 @@
 import React from "react";
 import axios from "axios";
+import {
+  Box,
+} from "@mui/material";
 
 const Home = () => {
   const handleClick = async () => {
@@ -16,11 +19,14 @@ const Home = () => {
 
 
   return (
-    <div>
-      Home
-      <button onClick={handleClick}>fetchGames</button>
-      <button>handleSSSSF</button>
-    </div>
+    // <Box component="main"
+    // x={{ flexGrow: 1, p: 3 }}
+    // >
+    //   Home
+    //   <button onClick={handleClick}>fetchGames</button>
+    //   <button>handleSSSsssssssssssssssssssSF</button>
+    // </Box>
+    <></>
   );
 };
 
