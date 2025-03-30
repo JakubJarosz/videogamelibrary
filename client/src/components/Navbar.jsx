@@ -6,10 +6,8 @@ import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
-  Button,
   Toolbar,
   IconButton,
-  Typography,
   Drawer,
   Divider,
   List,
@@ -24,19 +22,13 @@ import HomeIcon from "@mui/icons-material/Home";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import GamesIcon from "@mui/icons-material/Games";
 
-const Navbar = () => {
+const drawerWidth = 250;
+const collapsedWidth = 90;
+
+const Navbar = ({ open, toggleDrawer }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { darkMode, toggleDarkMode } = useContext(ThemeContext);
-  const [open, setOpen] = useState(true);
-
-  const drawerWidth = 250;
-  const collapsedWidth = 90;
-
-  const handleOpen = () => {
-    setOpen((prev) => !prev);
-    console.log(open);
-  };
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -52,7 +44,7 @@ const Navbar = () => {
         }}
       >
         <Toolbar>
-          <IconButton onClick={handleOpen}>
+          <IconButton onClick={toggleDrawer}>
             <MenuIcon />
           </IconButton>
         </Toolbar>
@@ -75,7 +67,7 @@ const Navbar = () => {
             pr: "20px",
           }}
         >
-          <IconButton edge="end" size="large" onClick={handleOpen}>
+          <IconButton edge="end" size="large" onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
         </Box>
@@ -95,22 +87,6 @@ const Navbar = () => {
           ))}
         </List>
       </Drawer>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.default",
-          p: 3,
-          transition: "margin-left 0.3s ease", // Smooth transition for content shift
-          marginLeft: open ? `${drawerWidth}px` : `${collapsedWidth}px`, // Content margin changes based on drawer state
-          marginTop: "64px", // To offset AppBar height
-        }}
-      >
-        <Typography variant="h4">Main Content</Typography>
-        <Typography paragraph>
-          This is the main content area that adjusts based on the drawer state.
-        </Typography>
-      </Box>
     </Box>
   );
 };

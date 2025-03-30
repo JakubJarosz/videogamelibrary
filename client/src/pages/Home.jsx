@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {
-  Box,
+  Box, Typography
 } from "@mui/material";
 
 const Home = () => {
@@ -19,14 +19,13 @@ const Home = () => {
 
 
   return (
-    // <Box component="main"
-    // x={{ flexGrow: 1, p: 3 }}
-    // >
-    //   Home
-    //   <button onClick={handleClick}>fetchGames</button>
-    //   <button>handleSSSsssssssssssssssssssSF</button>
-    // </Box>
-    <></>
+    <Box component="main"
+    x={{ flexGrow: 1, p: 3 }}
+    >
+      Home
+      <button onClick={handleClick}>fetchGames</button>
+      <button>handleSSSsssssssssssssssssssSF</button>
+    </Box>
   );
 };
 
