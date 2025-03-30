@@ -1,8 +1,4 @@
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "../theme/ThemeContext";
-import { logoutUser } from "../state/authSlice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import {
   AppBar,
   Box,
