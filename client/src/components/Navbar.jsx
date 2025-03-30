@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../theme/ThemeContext";
 import { logoutUser } from "../state/authSlice";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,8 @@ import {
   ListItemText,
   ListItemButton,
   ListItemIcon,
+  Typography,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -34,21 +36,37 @@ const Navbar = ({ open, toggleDrawer }) => {
     dispatch(logoutUser());
     navigate("/login");
   };
+
   return (
     <Box sx={{ display: "flex" }}>
+      {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
-          left: open ? `${drawerWidth}px` : `${collapsedWidth}px`,
+          left: open ? `${drawerWidth}px` : `${collapsedWidth}px`, 
           height: 64,
+          width: `calc(100% - ${open ? drawerWidth : collapsedWidth}px)`,
         }}
       >
-        <Toolbar>
-          <IconButton onClick={toggleDrawer}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          {/* Drawer toggle button */}
+          <IconButton onClick={toggleDrawer} sx={{ display: !open ? "flex" : "none" }}>
             <MenuIcon />
+          </IconButton>
+
+          {/* Logo */}
+          <Typography variant="h6" noWrap sx={{ textAlign: "left", flexGrow: 1, ml: "15px" }}>
+            Logo
+          </Typography>
+
+          {/* Avatar positioned absolutely */}
+          <IconButton sx={{ position: "absolute", right: 16 }}>
+            <Avatar>H</Avatar>
           </IconButton>
         </Toolbar>
       </AppBar>
+
+      {/* Drawer */}
       <Drawer
         variant="permanent"
         open={open}
