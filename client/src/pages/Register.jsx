@@ -167,7 +167,7 @@ const Register = () => {
             sx={{ mt: "25px", mb: "30px" }}
           >
             <Typography variant="h7">
-              Already have an account ?<Link component="button" onClick={(() => navigate("/login"))}>Login</Link>
+              Already have an account? <Link component="button" onClick={(() => navigate("/login"))}>Login</Link>
             </Typography>
           </Box>
         </Box>
