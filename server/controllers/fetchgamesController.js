@@ -5,7 +5,7 @@ const fetchGames = async (req, res) => {
   try {
     const {
       page = 1,
-      page_size = 10,
+      page_size = 5,
       search = "",
       genres = "",
       ordering = "",
