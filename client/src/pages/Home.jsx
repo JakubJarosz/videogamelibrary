@@ -52,7 +52,7 @@ const Home = () => {
       </Grid>
      <Grid item xs={10} container spacing={2} wrap="nowrap" overflow="hidden">
         {data.slice(1,5).map((el) => (
-          <Grid item>
+          <Grid item  xs={12}>
             <Card>
               <CardMedia
                 component="img"
