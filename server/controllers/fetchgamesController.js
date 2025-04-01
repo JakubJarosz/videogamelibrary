@@ -9,6 +9,7 @@ const fetchGames = async (req, res) => {
       search = "",
       genres = "",
       ordering = "",
+      exclude_additions=true
     } = req.query;
 
     const genresQuery = Array.isArray(genres) ? genres.join(",") : genres;
@@ -19,6 +20,7 @@ const fetchGames = async (req, res) => {
       page_size,
       search,
       ordering,
+      exclude_additions
     };
 
     if (genresQuery) {
