@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector  } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "./state/authSlice";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
-import "./styles/index.css"
+import "./styles/index.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,6 +13,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/User";
+import GamesInfo from "./pages/GamesInfo";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -25,7 +26,11 @@ function App() {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (!user && location.pathname !== "/login" && location.pathname !== "/register") {
+    if (
+      !user &&
+      location.pathname !== "/login" &&
+      location.pathname !== "/register"
+    ) {
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
@@ -55,11 +60,19 @@ function App() {
               </PrivateRoute>
             }
           />
-           <Route
+          <Route
             path="/user"
             element={
               <PrivateRoute>
                 <User />
+              </PrivateRoute>
+            }
+          />
+            <Route
+            path="/games/:id"
+            element={
+              <PrivateRoute>
+                <GamesInfo />
               </PrivateRoute>
             }
           />

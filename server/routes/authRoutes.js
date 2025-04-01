@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const fetchGames = require("../controllers/fetchgamesController")
+const {fetchGames, fetchSingleGame} = require("../controllers/fetchgamesController")
 const {
   test,
   registerUser,
@@ -35,6 +35,7 @@ router.post("/theme", authenticateUser, changeTheme);
 
 // RAWG API routes
 router.get("/games", authenticateUser, fetchGames);
+router.get("/game/:id", authenticateUser, fetchSingleGame)
 
 // Steam API
 router.get("/steamProfile", authenticateUser, fetchSteamProfile)

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -39,6 +40,7 @@ const Navbar = ({
   darkMode,
   toggleDarkMode,
 }) => {
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: "flex" }}>
       {/* AppBar */}
@@ -130,7 +132,7 @@ const Navbar = ({
         <Divider />
         <List>
           {["Home", "Library", "Games"].map((field) => (
-            <ListItem key={field}>
+            <ListItem key={field} onClick={() => field === "Home" ? navigate("/") : navigate("/library")}>
               <ListItemButton>
                 <ListItemIcon>
                   {field === "Home" && <HomeIcon />}

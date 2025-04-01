@@ -1,6 +1,5 @@
 const axios = require("axios");
 
-
 const fetchGames = async (req, res) => {
   try {
     const {
@@ -9,7 +8,7 @@ const fetchGames = async (req, res) => {
       search = "",
       genres = "",
       ordering = "",
-      exclude_additions=true
+      exclude_additions = true,
     } = req.query;
 
     const genresQuery = Array.isArray(genres) ? genres.join(",") : genres;
@@ -20,7 +19,7 @@ const fetchGames = async (req, res) => {
       page_size,
       search,
       ordering,
-      exclude_additions
+      exclude_additions,
     };
 
     if (genresQuery) {
@@ -36,6 +35,18 @@ const fetchGames = async (req, res) => {
   }
 };
 
+const fetchSingleGame = async(req,res) => {
+   const {id} = req.params
+   try {
+      const response = await axios.get(`https://api.rawg.io/api/games/${id}`, {
+        params: {
+          key: process.env.RAWG_API_KEY,
+        }
+      })
+      res.status(200).json(response.data)
+   } catch (error){
+    res.status(500).json({error: error })
+   }
+};
 
-
-module.exports = fetchGames;
+module.exports = { fetchGames, fetchSingleGame };
