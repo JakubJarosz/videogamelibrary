@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import CustomModal from "../components/CustomModal";
 import { ThemeContext } from "../theme/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,7 +7,6 @@ import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import { logoutUser } from "../state/authSlice";
-
 
 const drawerWidth = 250;
 const collapsedWidth = 90;
@@ -18,6 +18,9 @@ const Layout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
   const [open, setOpen] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   const handleClickMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,6 +50,7 @@ const Layout = () => {
         anchorEl={anchorEl}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
+        handleOpenModal={handleOpenModal}
       />
       <Box
         component="main"
@@ -60,6 +64,10 @@ const Layout = () => {
       >
         <Outlet />
       </Box>
+      <CustomModal
+      openModal={openModal}
+      handleCloseModal={handleCloseModal}
+      />
     </Box>
   );
 };

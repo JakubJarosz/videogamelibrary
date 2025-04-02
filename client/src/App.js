@@ -61,7 +61,7 @@ function App() {
             }
           />
           <Route
-            path="/user"
+            path="/library"
             element={
               <PrivateRoute>
                 <User />

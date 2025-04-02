@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   AppBar,
   Box,
@@ -16,7 +17,6 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  CircularProgress 
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -40,6 +40,7 @@ const Navbar = ({
   anchorEl,
   darkMode,
   toggleDarkMode,
+  handleOpenModal
 }) => {
   const navigate = useNavigate();
   return (
@@ -88,7 +89,7 @@ const Navbar = ({
           {/* Avatar positioned absolutely */}
           <IconButton
             sx={{ position: "absolute", right: 56 }}
-            onClick={() => navigate("/user")}
+            onClick={handleOpenModal}
           >
             <Avatar>H</Avatar>
           </IconButton>
@@ -139,7 +140,7 @@ const Navbar = ({
             <ListItem
               key={field}
               onClick={() =>
-                field === "Home" ? navigate("/") : navigate("/library")
+                field === "Home" ? navigate("/") : field === "Library" ? navigate("/library"): navigate("/fffff")
               }
             >
               <ListItemButton>
@@ -154,6 +155,7 @@ const Navbar = ({
           ))}
         </List>
       </Drawer>
+   
     </Box>
   );
 };
