@@ -12,8 +12,9 @@ import GlobalLoading from "./components/GlobalLoading";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/PrivateRoute";
-import User from "./pages/User";
 import GamesInfo from "./pages/GamesInfo";
+import Library from "./pages/Library";
+
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -64,7 +65,7 @@ function App() {
             path="/library"
             element={
               <PrivateRoute>
-                <User />
+                <Library />
               </PrivateRoute>
             }
           />

@@ -40,7 +40,7 @@ const Navbar = ({
   anchorEl,
   darkMode,
   toggleDarkMode,
-  handleOpenModal
+  handleOpenModal,
 }) => {
   const navigate = useNavigate();
   return (
@@ -140,7 +140,11 @@ const Navbar = ({
             <ListItem
               key={field}
               onClick={() =>
-                field === "Home" ? navigate("/") : field === "Library" ? navigate("/library"): navigate("/fffff")
+                field === "Home"
+                  ? navigate("/")
+                  : field === "Library"
+                  ? navigate("/library")
+                  : navigate("/fffff")
               }
             >
               <ListItemButton>
@@ -155,7 +159,6 @@ const Navbar = ({
           ))}
         </List>
       </Drawer>
-   
     </Box>
   );
 };
