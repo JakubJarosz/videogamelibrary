@@ -10,6 +10,8 @@ import {
   Grid,
   Typography,
   IconButton,
+  CircularProgress,
+  Box,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -22,6 +24,7 @@ const GamesLibrary = ({ title, ordering }) => {
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -42,6 +45,7 @@ const GamesLibrary = ({ title, ordering }) => {
     setIndex((prev) => prev + 1);
   };
   const fetchGames = async (pageNumber) => {
+    setLoading(true);
     try {
       const response = await axios.get("/games", {
         params: {
@@ -53,57 +57,82 @@ const GamesLibrary = ({ title, ordering }) => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      justifyContent="center"
-      spacing={2}
-      sx={{ mb: "70px" }}
-    >
-      <Grid item xs={12} align="left">
-        <Typography variant="h4">{title}</Typography>
-      </Grid>
-      <Grid item xs={1}>
-        <IconButton disabled={index === 0} onClick={prevBtn}>
-          <ArrowBackIosIcon />
-        </IconButton>
-      </Grid>
-      <Grid item xs={10} container spacing={2} wrap="nowrap" overflow="hidden">
-        {data.slice(index, index + visibleCards).map((el) => (
-          <Grid item xs={12 / visibleCards} key={el.id}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="150"
-                image={el.background_image || "https://via.placeholder.com/150"}
-                sx={{ cursor: "pointer" }}
-              />
-              <CardContent>
-                <Typography>{el.name}</Typography>
-              </CardContent>
-              <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Button onClick={() => navigate(`/games/${el.id}`)}>
-                  Details
-                </Button>
-                <IconButton>
-                  <FavoriteIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
+    <>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+          sx={{ mb: "70px" }}
+        >
+          <Grid item xs={12} align="left">
+            <Typography variant="h4">{title}</Typography>
           </Grid>
-        ))}
-      </Grid>
-      <Grid item xs={1}>
-        <IconButton onClick={nextBtn}>
-          <ArrowForwardIosIcon />
-        </IconButton>
-      </Grid>
-    </Grid>
+          <Grid item xs={1}>
+            <IconButton disabled={index === 0} onClick={prevBtn}>
+              <ArrowBackIosIcon />
+            </IconButton>
+          </Grid>
+          <Grid
+            item
+            xs={10}
+            container
+            spacing={2}
+            wrap="nowrap"
+            overflow="hidden"
+          >
+            {data.slice(index, index + visibleCards).map((el) => (
+              <Grid item xs={12 / visibleCards} key={el.id}>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="150"
+                    image={
+                      el.background_image || "https://via.placeholder.com/150"
+                    }
+                    sx={{ cursor: "pointer" }}
+                  />
+                  <CardContent>
+                    <Typography>{el.name}</Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button onClick={() => navigate(`/games/${el.id}`)}>
+                      Details
+                    </Button>
+                    <IconButton>
+                      <FavoriteIcon />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton onClick={nextBtn}>
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 

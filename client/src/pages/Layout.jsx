@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import { logoutUser } from "../state/authSlice";
 
+
 const drawerWidth = 250;
 const collapsedWidth = 90;
 

@@ -16,6 +16,7 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  CircularProgress 
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -85,7 +86,10 @@ const Navbar = ({
             {darkMode === "light" && <DarkModeOutlinedIcon />}
           </IconButton>
           {/* Avatar positioned absolutely */}
-          <IconButton sx={{ position: "absolute", right: 56 }}>
+          <IconButton
+            sx={{ position: "absolute", right: 56 }}
+            onClick={() => navigate("/user")}
+          >
             <Avatar>H</Avatar>
           </IconButton>
           {/* Menu positioned absolutely */}
@@ -132,7 +136,12 @@ const Navbar = ({
         <Divider />
         <List>
           {["Home", "Library", "Games"].map((field) => (
-            <ListItem key={field} onClick={() => field === "Home" ? navigate("/") : navigate("/library")}>
+            <ListItem
+              key={field}
+              onClick={() =>
+                field === "Home" ? navigate("/") : navigate("/library")
+              }
+            >
               <ListItemButton>
                 <ListItemIcon>
                   {field === "Home" && <HomeIcon />}
