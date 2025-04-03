@@ -79,10 +79,12 @@ const GamesLibrary = ({ title, ordering }) => {
           alignItems="center"
           justifyContent="center"
           spacing={2}
-          sx={{ mb: "70px" }}
+          sx={{ mb: "70px",
+            
+          }}
         >
           <Grid item xs={12} align="left">
-            <Typography variant="h4">{title}</Typography>
+            <Typography variant="h4" sx={{ color: (theme) => theme.palette.text.primary }}>{title}</Typography>
           </Grid>
           <Grid item xs={1}>
             <IconButton disabled={index === 0} onClick={prevBtn}>

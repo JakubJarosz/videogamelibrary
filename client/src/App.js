@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "./state/authSlice";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
+import {
+  Box
+} from "@mui/material";
 import "./styles/index.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -46,7 +49,10 @@ function App() {
     return <GlobalLoading />;
   }
   return (
-    <div className="App">
+    <Box sx={{
+      backgroundColor: (theme) => theme.palette.background.default,
+      padding: 2,
+    }}>
       <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
       <GlobalError />
       <Routes>
@@ -79,7 +85,7 @@ function App() {
           />
         </Route>
       </Routes>
-    </div>
+    </Box>
   );
 }
 

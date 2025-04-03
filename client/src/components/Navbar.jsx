@@ -96,7 +96,7 @@ const Navbar = ({
             sx={{ position: "absolute", right: 56 }}
             onClick={handleOpenModal}
           >
-            <Avatar src={avatar}>{user.charAt(0).toUpperCase()}</Avatar>
+            <Avatar src={avatar}>{user}</Avatar>
           </IconButton>
           {/* Menu positioned absolutely */}
           <IconButton

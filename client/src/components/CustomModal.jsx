@@ -14,15 +14,16 @@ import {
 
 const CustomModal = ({ openModal, handleCloseModal }) => {
   const userId = useSelector((state) => state.auth.user?._id);
+  const steamProfile = useSelector((state) => state.auth.user?.steamProfile);
   const [steamId, setSteamId] = useState("");
   const [steamData, setSteamData] = useState({});
   const [error, setError] = useState(false);
 
   const handleChange = (e) => {
-    const {value} = e.target;
-    setSteamId(value)
-    if (value) setError(false)
-  }
+    const { value } = e.target;
+    setSteamId(value);
+    if (value) setError(false);
+  };
 
   const handlefetchSteam = async () => {
     try {
@@ -73,7 +74,10 @@ const CustomModal = ({ openModal, handleCloseModal }) => {
             borderRadius: "15px",
           }}
         >
-          <Typography variant="h6" sx={{ mb: "10px" }}>
+          <Typography
+            variant="h6"
+            sx={{ mb: "10px", color: (theme) => theme.palette.text.primary }}
+          >
             Connect to your steam account
           </Typography>
           <Box sx={{ display: "flex" }}>
@@ -88,7 +92,9 @@ const CustomModal = ({ openModal, handleCloseModal }) => {
               Search
             </Button>
           </Box>
-          <Box sx={{ mt: "15px", display:"flex", justifyContent:"space-evenly" }}>
+          <Box
+            sx={{ mt: "15px", display: "flex", justifyContent: "space-evenly" }}
+          >
             {Object.keys(steamData).length === 0 ? (
               <></>
             ) : (
@@ -106,3 +112,9 @@ const CustomModal = ({ openModal, handleCloseModal }) => {
 };
 
 export default CustomModal;
+
+// {Object.keys(steamData).length === 0 || steamProfile && (<>
+//   <Typography variant="h6">{steamData.personaname}</Typography>
+//   <Avatar alt={steamData.personaname} src={steamData.avatar} />
+//   <Button onClick={handleRegister}>Add</Button>
+// </>)}
