@@ -41,6 +41,8 @@ const Navbar = ({
   darkMode,
   toggleDarkMode,
   handleOpenModal,
+  avatar,
+  user,
 }) => {
   const navigate = useNavigate();
   return (
@@ -78,6 +80,9 @@ const Navbar = ({
           >
             Logo
           </Typography>
+          <Typography variant="h6" sx={{ position: "absolute", right: 170 }}>
+            {user}
+          </Typography>
           {/* DarkModeToggle positioned absolutely */}
           <IconButton
             sx={{ position: "absolute", right: 116 }}
@@ -91,7 +96,7 @@ const Navbar = ({
             sx={{ position: "absolute", right: 56 }}
             onClick={handleOpenModal}
           >
-            <Avatar>H</Avatar>
+            <Avatar src={avatar}>{user.charAt(0).toUpperCase()}</Avatar>
           </IconButton>
           {/* Menu positioned absolutely */}
           <IconButton

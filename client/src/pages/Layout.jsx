@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import CustomModal from "../components/CustomModal";
 import { ThemeContext } from "../theme/ThemeContext";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -14,6 +14,8 @@ const collapsedWidth = 90;
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const avatar = useSelector((state) => state.auth.user?.steamProfile?.avatar || "")
+  const user = useSelector((state) => state.auth.user?.name)
   const { darkMode, toggleDarkMode } = useContext(ThemeContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
@@ -51,6 +53,8 @@ const Layout = () => {
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
         handleOpenModal={handleOpenModal}
+        avatar={avatar}
+        user={user}
       />
       <Box
         component="main"
@@ -64,10 +68,7 @@ const Layout = () => {
       >
         <Outlet />
       </Box>
-      <CustomModal
-      openModal={openModal}
-      handleCloseModal={handleCloseModal}
-      />
+      <CustomModal openModal={openModal} handleCloseModal={handleCloseModal} />
     </Box>
   );
 };

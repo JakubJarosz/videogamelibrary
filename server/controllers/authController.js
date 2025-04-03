@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name) {
-     return res.status(400).json({
+      return res.status(400).json({
         error: "name is required",
       });
     }
@@ -78,9 +78,11 @@ const loginUser = async (req, res) => {
   }
 };
 
-const fetchUser = async(req, res) => {
+const fetchUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("name email theme");
+    const user = await User.findById(req.user.id)
+      .select("name email theme steamProfile")
+      .populate("steamProfile", "avatar");
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -105,5 +107,5 @@ module.exports = {
   registerUser,
   loginUser,
   fetchUser,
-  logOut
+  logOut,
 };

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
@@ -8,7 +8,7 @@ export const fetchSteamData = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
            const {data} = await axios.get("/steamData");
-           return data
+           return data.steamProfile
         } catch (error) {
             return rejectWithValue("Unauthorized");
         }
