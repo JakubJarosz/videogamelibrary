@@ -1,6 +1,6 @@
 const axios = require("axios");
 const SteamProfile = require("../models/steamProfile");
-const User = require("../models/user")
+const User = require("../models/user");
 
 const fetchSteamProfile = async (req, res) => {
   const apiKey = process.env.STEAM_API_KEY;
@@ -72,10 +72,28 @@ const addSteamToDataBase = async (req, res) => {
       steamData,
       { upsert: true, new: true }
     );
- 
-    await User.findByIdAndUpdate(userId, {steamProfile: steamProfile._id})
-    res.status(200).json({message: "Steam account linked successfully", steamProfile})
+
+    await User.findByIdAndUpdate(userId, { steamProfile: steamProfile._id });
+    res
+      .status(200)
+      .json({ message: "Steam account linked successfully", steamProfile });
   } catch (error) {}
 };
 
-module.exports = { fetchSteamProfile, addSteamToDataBase };
+const fetchSteamFromDataBase = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("steamProfile");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports = {
+  fetchSteamProfile,
+  addSteamToDataBase,
+  fetchSteamFromDataBase,
+};

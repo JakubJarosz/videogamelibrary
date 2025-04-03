@@ -4,8 +4,9 @@ import { CircularProgress, Box } from "@mui/material";
 
 
 const GlobalLoading = () => {
-  const loading = useSelector((state) => state.auth.loading);
-  if (!loading) return null;
+  const loadingProfile = useSelector((state) => state.auth.loading);
+  const loadingSteam = useSelector((state) => state.steam.loading);
+  if (!loadingProfile || !loadingSteam) return null;
   return (
     <Box
       sx={{

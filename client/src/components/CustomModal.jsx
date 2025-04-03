@@ -95,6 +95,7 @@ const CustomModal = ({ openModal, handleCloseModal }) => {
               <>
                 <Typography variant="h6">{steamData.personaname}</Typography>
                 <Avatar alt={steamData.personaname} src={steamData.avatar} />
+                <Button onClick={handleRegister}>Add</Button>
               </>
             )}
           </Box>
