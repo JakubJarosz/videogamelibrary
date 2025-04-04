@@ -136,7 +136,7 @@ const Login = () => {
             </Box>
           ))}
           <Button type="submit" variant="contained">
-            Register
+            Login
           </Button>
           <Box
             display="flex"
