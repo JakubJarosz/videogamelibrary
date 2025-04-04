@@ -3,15 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchSteamData } from "../state/steamSlice";
 import { useTheme } from "@mui/material/styles";
-import axios from "axios";
 import {
   Grid,
   Typography,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Tooltip,
   Stack,
   Pagination,
