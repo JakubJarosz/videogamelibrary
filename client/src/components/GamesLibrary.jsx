@@ -12,6 +12,7 @@ import {
   IconButton,
   CircularProgress,
   Box,
+  Tooltip
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -111,7 +112,9 @@ const GamesLibrary = ({ title, ordering }) => {
                     sx={{ cursor: "pointer" }}
                   />
                   <CardContent>
-                    <Typography>{el.name}</Typography>
+                    <Tooltip title={el.name}>
+                    <Typography noWrap sx={{cursor: "pointer"}}>{el.name}</Typography>
+                    </Tooltip>
                   </CardContent>
                   <CardActions
                     sx={{ display: "flex", justifyContent: "space-between" }}
