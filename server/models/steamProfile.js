@@ -11,7 +11,16 @@ const SteamProfileSchema = new Schema({
         appid: Number,
         name: String,
         playtime_forever: Number,
-        img_icon_url: String
+        image: String,
+        tags: [String],
+        description: String,
+        released: String,
+        rating: Number,
+        metacritic: Number,
+        publishers: [String],
+        developers: [String],
+        rawgId: Number,
+        slug: String,
     }
   ]
 });

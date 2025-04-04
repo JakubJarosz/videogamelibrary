@@ -115,7 +115,7 @@ const GamesInfo = () => {
                     sx={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
-                      WebkitLineClamp: 2, // Limit to 2 lines
+                      WebkitLineClamp: 2, 
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       maxWidth: "100%",

@@ -48,5 +48,6 @@ router.get("/game/:id", authenticateUser, fetchSingleGame);
 router.get("/steamProfile", authenticateUser, fetchSteamProfile);
 router.get("/steamData", authenticateUser, fetchSteamFromDataBase);
 router.post("/connect-steam", authenticateUser, addSteamToDataBase);
+router.post("/")
 
 module.exports = router;

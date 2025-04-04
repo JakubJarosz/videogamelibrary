@@ -1,4 +1,6 @@
 const axios = require("axios");
+const fuzzysort = require("fuzzysort");
+const RawgCache = require("../models/rawgCache");
 const SteamProfile = require("../models/steamProfile");
 const User = require("../models/user");
 
@@ -61,12 +63,89 @@ const fetchAllSteamInfo = async (steamId) => {
   }
 };
 
+const enrichSteamGamesWithRawg = async (steamGames = []) => {
+  const enrichedGames = [];
+
+  for (const game of steamGames) {
+    const normalizedName = game.name.toLowerCase().trim();
+
+    // check local cache RAWG
+    let cache = await RawgCache.findOne({ name: normalizedName });
+
+    // check RAWG if there is no local cache
+    if (!cache) {
+      const searchUrl = `https://api.rawg.io/api/games?search=${encodeURIComponent(
+        game.name
+      )}&key=${process.env.RAWG_API_KEY}`;
+      const rawgRes = await axios.get(searchUrl);
+      const rawgResults = rawgRes.data.results || [];
+
+      // Fuzzy match
+      const match = fuzzysort.go(game.name, rawgResults, {
+        key: "name",
+        threshold: -1000,
+      })[0];
+
+      const bestMatch = match?.obj || rawgResults[0];
+
+      if (bestMatch) {
+        //fetching full data by id (needed for info like desc)
+        const detailRes = await axios.get(
+          `https://api.rawg.io/api/games/${bestMatch.id}?key=${process.env.RAWG_API_KEY}`
+        );
+        const fullGame = detailRes.data;
+        // to clean russian tags
+        const cleanTags = fullGame.tags
+          ?.map((tag) => tag.name)
+          .filter((name) => /^[\x00-\x7F]+$/.test(name))
+          .slice(0, 10);
+
+        cached = new RawgCache({
+          name: normalizedName,
+          rawgId: fullGame.id,
+          slug: fullGame.slug,
+          image: fullGame.background_image,
+          tags: cleanTags,
+          description: fullGame.description_raw || "",
+          released: fullGame.released,
+          rating: fullGame.rating,
+          metacritic: fullGame.metacritic,
+          publishers: fullGame.publishers?.map((p) => p.name) || [],
+          developers: fullGame.developers?.map((d) => d.name) || [],
+        });
+        await cached.save();
+      }
+    }
+    enrichedGames.push({
+      appid: game.appid,
+      name: game.name,
+      playtime_forever: game.playtime_forever,
+      image: cached?.image || null,
+      tags: cached?.tags || [],
+      description: cached?.description || "",
+      released: cached?.released || "",
+      rating: cached?.rating || null,
+      metacritic: cached?.metacritic || null,
+      publishers: cached?.publishers || [],
+      developers: cached?.developers || [],
+      rawgId: cached?.rawgId || null,
+      slug: cached?.slug || null,
+    });
+  }
+  return enrichedGames;
+};
+
 const addSteamToDataBase = async (req, res) => {
   const { userId, steamId } = req.body;
   try {
     const steamData = await fetchAllSteamInfo(steamId);
     if (!steamData)
       return res.status(500).json({ error: "Failed to fetch Steam profile" });
+
+    // enrich steam games
+    const enrichedGames = await enrichSteamGamesWithRawg(steamData.games);
+    steamData.games = enrichedGames;
+
     const steamProfile = await SteamProfile.findOneAndUpdate(
       { steamId },
       steamData,
@@ -77,7 +156,10 @@ const addSteamToDataBase = async (req, res) => {
     res
       .status(200)
       .json({ message: "Steam account linked successfully", steamProfile });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error enriching and saving Steam data:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
 
 const fetchSteamFromDataBase = async (req, res) => {
