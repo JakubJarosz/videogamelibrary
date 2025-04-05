@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchSteamData } from "../state/steamSlice";
@@ -8,11 +9,13 @@ import {
   Typography,
   Card,
   CardContent,
+  CardActions,
   CardMedia,
   Tooltip,
   Stack,
   Pagination,
   useMediaQuery,
+  Button,
 } from "@mui/material";
 
 const Library = () => {
@@ -31,7 +34,7 @@ const Library = () => {
     ? 4
     : isLargeScreen
     ? 6
-    : 8 ;
+    : 8;
   const startIndex = (page - 1) * visibleCards;
   const endIndex = startIndex + visibleCards;
   const maxPage = Math.ceil(steam.length / visibleCards);
@@ -43,6 +46,24 @@ const Library = () => {
   useEffect(() => {
     dispatch(fetchSteamData());
   }, [dispatch]);
+
+  // TEEEEEEEEEEEEEEEEEST
+  const [achievements, setAchievements] = useState({});
+  const steamId = useSelector((state) => state.steam?.user?.steamId || "");
+
+  const fetchSteamAchievements = async (appId) => {
+    try {
+      await axios.get("/steamAchievements", {
+        params: {
+          appId: appId,
+          steamId: steamId
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Grid
       container
@@ -51,30 +72,31 @@ const Library = () => {
         minHeight: "100vh",
       }}
     >
-      <Grid>
-        
-      </Grid>
+      <Grid></Grid>
       <Grid item xs={12}>
-        <Typography variant="h4" sx={{color:"white"}}>
+        <Typography variant="h4" sx={{ color: "white" }}>
           Owned games:
         </Typography>
       </Grid>
       {steam.slice(startIndex, endIndex).map((game) => (
         <Grid item tem key={game.appid} xs={12} sm={6} md={4} lg={3}>
-          <Card onClick={() => navigate(`/games/${game.rawgId}`)}>
+          <Card>
             <CardMedia
               component="img"
               image={game.image}
               alt={game.name}
               height="150"
             />
-            <CardContent>
+            <CardContent onClick={() => navigate(`/games/${game.rawgId}`)}>
               <Tooltip title={game.name}>
                 <Typography noWrap sx={{ cursor: "pointer" }}>
                   {game.name}
                 </Typography>
               </Tooltip>
             </CardContent>
+            <CardActions>
+              <Button onClick={() =>fetchSteamAchievements(game.appid)}>more</Button>
+            </CardActions>
           </Card>
         </Grid>
       ))}

@@ -19,6 +19,7 @@ const {
   addSteamToDataBase,
   fetchSteamFromDataBase,
 } = require("../controllers/fetchsteamdataController");
+const fetchSteamAchievements = require("../controllers/fetchAchievements")
 
 //middleare
 router.use(
@@ -47,6 +48,8 @@ router.get("/game/:id", authenticateUser, fetchSingleGame);
 // Steam API
 router.get("/steamProfile", authenticateUser, fetchSteamProfile);
 router.get("/steamData", authenticateUser, fetchSteamFromDataBase);
+router.get("/steamAchievements", authenticateUser, fetchSteamAchievements);
 router.post("/connect-steam", authenticateUser, addSteamToDataBase);
+
 
 module.exports = router;
