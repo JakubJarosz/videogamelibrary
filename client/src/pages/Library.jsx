@@ -28,10 +28,10 @@ const Library = () => {
   const visibleCards = isSmallScreen
     ? 4
     : isMediumScreen
-    ? 6
+    ? 4
     : isLargeScreen
-    ? 9
-    : 12;
+    ? 6
+    : 8 ;
   const startIndex = (page - 1) * visibleCards;
   const endIndex = startIndex + visibleCards;
   const maxPage = Math.ceil(steam.length / visibleCards);
@@ -51,6 +51,14 @@ const Library = () => {
         minHeight: "100vh",
       }}
     >
+      <Grid>
+        
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h4" sx={{color:"white"}}>
+          Owned games:
+        </Typography>
+      </Grid>
       {steam.slice(startIndex, endIndex).map((game) => (
         <Grid item tem key={game.appid} xs={12} sm={6} md={4} lg={3}>
           <Card onClick={() => navigate(`/games/${game.rawgId}`)}>
