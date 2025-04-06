@@ -10,17 +10,18 @@ import AchievementsModal from "../components/AchievementsModal";
 const Library = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  // pagination and owned games
   const steam = useSelector((state) => state.steam?.user?.games || []);
   const [page, setPage] = useState(1);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // <600px
   const isMediumScreen = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600px - 899px
   const isLargeScreen = useMediaQuery(theme.breakpoints.between("md", "lg")); // 900px - 1199px
   // modal logic
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openMenu = Boolean(anchorEl);
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+  // achievements
+  const [achievements, setAchievements] = useState([])
 
   const visibleCards = isSmallScreen
     ? 4
@@ -45,16 +46,18 @@ const Library = () => {
 
   const fetchSteamAchievements = async (appId) => {
     try {
-      await axios.get("/steamAchievements", {
+      const response = await axios.get("/steamAchievements", {
         params: {
           appId: appId,
           steamId: steamId,
         },
       });
+      setAchievements(response.data)
     } catch (error) {
-      console.log(error);
+      setAchievements("err")
     }
   };
+
 
   return (
     <>
@@ -70,6 +73,7 @@ const Library = () => {
       <AchievementsModal 
       openModal={openModal}
       handleCloseModal={handleCloseModal}
+      achievements={achievements}
       />
     </>
   );
