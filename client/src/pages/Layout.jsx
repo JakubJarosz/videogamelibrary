@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import CustomModal from "../components/CustomModal";
+import ConnectSteamModal from "../components/ConnectSteamModal";
 import { ThemeContext } from "../theme/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,7 +68,7 @@ const Layout = () => {
       >
         <Outlet />
       </Box>
-      <CustomModal openModal={openModal} handleCloseModal={handleCloseModal} />
+      <ConnectSteamModal openModal={openModal} handleCloseModal={handleCloseModal} />
     </Box>
   );
 };

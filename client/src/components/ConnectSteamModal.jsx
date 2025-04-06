@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { fetchSteamData } from "../state/steamSlice";
 
-const CustomModal = ({ openModal, handleCloseModal }) => {
+const ConnectSteamModal = ({ openModal, handleCloseModal }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
   const steamProfile = useSelector((state) => state.steam.user);
@@ -153,4 +153,4 @@ const CustomModal = ({ openModal, handleCloseModal }) => {
   );
 };
 
-export default CustomModal;
+export default ConnectSteamModal;
