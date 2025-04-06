@@ -1,39 +1,51 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import {
   Box,
   Modal as MUIModal,
   Backdrop,
   Fade,
   Typography,
-  TextField,
   Button,
-  Avatar,
-  CircularProgress,
 } from "@mui/material";
-import { fetchSteamData } from "../state/steamSlice";
 
-const AchievementsModal = () => {
+const AchievementsModal = ({
+  openModal,
+  handleCloseModal,
+  handleOpenModal,
+}) => {
   return (
-    <MUIModal>
-      <Fade>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: "15px",
-          }}
-        >
-          <Typography>HHHH</Typography>
-        </Box>
-      </Fade>
-    </MUIModal>
+    <Box>
+      <MUIModal
+        aria-labelledby="spring-modal-title"
+        aria-describedby="spring-modal-description"
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            TransitionComponent: Fade,
+          },
+        }}
+      >
+        <Fade in={openModal}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "15px",
+            }}
+          >
+            <Typography>HHHH</Typography>
+          </Box>
+        </Fade>
+      </MUIModal>
+    </Box>
   );
 };
 

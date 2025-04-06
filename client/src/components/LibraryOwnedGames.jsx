@@ -20,6 +20,7 @@ const LibraryOwnedGames = ({
   fetchSteamAchievements,
   maxPage,
   handlePagination,
+  handleOpenModal,
 }) => {
   const navigate = useNavigate();
   return (
@@ -52,7 +53,12 @@ const LibraryOwnedGames = ({
               </Tooltip>
             </CardContent>
             <CardActions>
-              <Button onClick={() => fetchSteamAchievements(game.appid)}>
+              <Button
+                onClick={() => {
+                  handleOpenModal();
+                  fetchSteamAchievements(game.appid);
+                }}
+              >
                 more
               </Button>
             </CardActions>

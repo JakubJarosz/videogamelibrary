@@ -5,6 +5,7 @@ import { fetchSteamData } from "../state/steamSlice";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import LibraryOwnedGames from "../components/LibraryOwnedGames";
+import AchievementsModal from "../components/AchievementsModal";
 
 const Library = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,12 @@ const Library = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // <600px
   const isMediumScreen = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600px - 899px
   const isLargeScreen = useMediaQuery(theme.breakpoints.between("md", "lg")); // 900px - 1199px
+  // modal logic
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   const visibleCards = isSmallScreen
     ? 4
@@ -58,6 +65,11 @@ const Library = () => {
         fetchSteamAchievements={fetchSteamAchievements}
         maxPage={maxPage}
         handlePagination={handlePagination}
+        handleOpenModal={handleOpenModal}
+      />
+      <AchievementsModal 
+      openModal={openModal}
+      handleCloseModal={handleCloseModal}
       />
     </>
   );
