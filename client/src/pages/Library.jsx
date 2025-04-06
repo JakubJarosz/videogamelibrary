@@ -1,26 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { fetchSteamData } from "../state/steamSlice";
 import { useTheme } from "@mui/material/styles";
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  CardMedia,
-  Tooltip,
-  Stack,
-  Pagination,
-  useMediaQuery,
-  Button,
-} from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+import LibraryOwnedGames from "../components/LibraryOwnedGames";
 
 const Library = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const theme = useTheme();
   const steam = useSelector((state) => state.steam?.user?.games || []);
   const [page, setPage] = useState(1);
@@ -47,8 +34,6 @@ const Library = () => {
     dispatch(fetchSteamData());
   }, [dispatch]);
 
- 
-  const [achievements, setAchievements] = useState({});
   const steamId = useSelector((state) => state.steam?.user?.steamId || "");
 
   const fetchSteamAchievements = async (appId) => {
@@ -56,7 +41,7 @@ const Library = () => {
       await axios.get("/steamAchievements", {
         params: {
           appId: appId,
-          steamId: steamId
+          steamId: steamId,
         },
       });
     } catch (error) {
@@ -65,51 +50,16 @@ const Library = () => {
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        minHeight: "100vh",
-      }}
-    >
-      <Grid item xs={12}>
-        <Typography variant="h4" sx={{ color: "white" }}>
-          Owned games:
-        </Typography>
-      </Grid>
-      {steam.slice(startIndex, endIndex).map((game) => (
-        <Grid item tem key={game.appid} xs={12} sm={6} md={4} lg={3}>
-          <Card>
-            <CardMedia
-              component="img"
-              image={game.image}
-              alt={game.name}
-              height="150"
-            />
-            <CardContent onClick={() => navigate(`/games/${game.rawgId}`)}>
-              <Tooltip title={game.name}>
-                <Typography noWrap sx={{ cursor: "pointer" }}>
-                  {game.name}
-                </Typography>
-              </Tooltip>
-            </CardContent>
-            <CardActions>
-              <Button onClick={() =>fetchSteamAchievements(game.appid)}>more</Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
-      <Grid container item xs={12} sx={{ justifyContent: "center" }}>
-        <Stack spacing={2}>
-          <Pagination
-            count={maxPage}
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePagination}
-          />
-        </Stack>
-      </Grid>
-    </Grid>
+    <>
+      <LibraryOwnedGames
+        steam={steam}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        fetchSteamAchievements={fetchSteamAchievements}
+        maxPage={maxPage}
+        handlePagination={handlePagination}
+      />
+    </>
   );
 };
 

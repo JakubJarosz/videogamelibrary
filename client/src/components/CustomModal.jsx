@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -17,7 +17,7 @@ import { fetchSteamData } from "../state/steamSlice";
 const CustomModal = ({ openModal, handleCloseModal }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
-  const steamProfile = useSelector((state) => state.steam.user);
+
   const loading = useSelector((state) => state.steam.loading);
 
   const [steamId, setSteamId] = useState("");

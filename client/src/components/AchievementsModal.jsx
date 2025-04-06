@@ -29,7 +29,9 @@ const AchievementsModal = () => {
             p: 4,
             borderRadius: "15px",
           }}
-        ></Box>
+        >
+          <Typography>HHHH</Typography>
+        </Box>
       </Fade>
     </MUIModal>
   );
