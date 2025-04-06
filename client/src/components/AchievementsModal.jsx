@@ -45,7 +45,7 @@ const AchievementsModal = ({ openModal, handleCloseModal, achievements }) => {
           >
             <Grid container spacing={2}>
               {achievements === "err" ? (
-                <Typography>HHHH</Typography>
+                <Typography>Game doesn't have achievements</Typography>
               ) : (
                 achievements.map((game) => (
                   <Grid item xs={12} key={game.name}>
