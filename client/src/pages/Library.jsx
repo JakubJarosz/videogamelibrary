@@ -72,7 +72,6 @@ const Library = () => {
         minHeight: "100vh",
       }}
     >
-      <Grid></Grid>
       <Grid item xs={12}>
         <Typography variant="h4" sx={{ color: "white" }}>
           Owned games:
