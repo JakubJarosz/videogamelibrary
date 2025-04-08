@@ -104,7 +104,7 @@ const GamesInfo = () => {
               <CardMedia
                 component="img"
                 image={
-                  data.background_image_additional ||
+                  data.background_image_additional||
                   "https://via.placeholder.com/150"
                 }
               />

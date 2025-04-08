@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import {
   Button,
@@ -22,6 +23,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const GamesLibrary = ({ title, ordering }) => {
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth.user?._id);
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
@@ -60,6 +62,14 @@ const GamesLibrary = ({ title, ordering }) => {
     }
     setLoading(false);
   };
+
+const handleaddToWishlist = async (gameId) => {
+  try {
+     await axios.post("/wishlist", {userId, gameId}) 
+  } catch (error) {
+      console.log(error)
+  }
+}
 
   return (
     <>
@@ -122,7 +132,7 @@ const GamesLibrary = ({ title, ordering }) => {
                     <Button onClick={() => navigate(`/games/${el.id}`)}>
                       Details
                     </Button>
-                    <IconButton>
+                    <IconButton onClick={() => handleaddToWishlist(el.id)}>
                       <FavoriteIcon />
                     </IconButton>
                   </CardActions>
