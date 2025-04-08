@@ -17,6 +17,7 @@ import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/PrivateRoute";
 import GamesInfo from "./pages/GamesInfo";
 import Library from "./pages/Library";
+import WishlistPage from "./pages/WishlistPage";
 
 
 axios.defaults.baseURL = "http://localhost:8000";
@@ -80,6 +81,14 @@ function App() {
             element={
               <PrivateRoute>
                 <GamesInfo />
+              </PrivateRoute>
+            }
+          />
+             <Route
+            path="/wishlist"
+            element={
+              <PrivateRoute>
+                <WishlistPage />
               </PrivateRoute>
             }
           />

@@ -149,7 +149,7 @@ const Navbar = ({
                   ? navigate("/")
                   : field === "Library"
                   ? navigate("/library")
-                  : navigate("/fffff")
+                  : navigate("/wishlist")
               }
             >
               <ListItemButton>
