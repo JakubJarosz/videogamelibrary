@@ -59,7 +59,7 @@ const LibraryOwnedGames = ({
                   fetchSteamAchievements(game.appid);
                 }}
               >
-                more
+                achievements
               </Button>
             </CardActions>
           </Card>

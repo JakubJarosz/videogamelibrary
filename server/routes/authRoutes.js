@@ -4,6 +4,7 @@ const cors = require("cors");
 const {
   fetchGames,
   fetchSingleGame,
+  saveTowishList
 } = require("../controllers/fetchgamesController");
 const {
   test,
@@ -44,6 +45,7 @@ router.post("/theme", authenticateUser, changeTheme);
 // RAWG API routes
 router.get("/games", authenticateUser, fetchGames);
 router.get("/game/:id", authenticateUser, fetchSingleGame);
+router.post("/wishlist", authenticateUser, saveTowishList)
 
 // Steam API
 router.get("/steamProfile", authenticateUser, fetchSteamProfile);

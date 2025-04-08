@@ -164,7 +164,7 @@ const GamesInfo = () => {
                 >
                   <Typography>Developers</Typography>
                   {data.developers?.length > 0 ? (
-                    data.developers.map((pub) => <Chip label={pub.name} />)
+                    data.developers.map((pub) => <Chip label={pub.name} key={pub.id}/>)
                   ) : (
                     <></>
                   )}

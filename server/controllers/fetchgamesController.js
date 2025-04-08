@@ -49,4 +49,19 @@ const fetchSingleGame = async(req,res) => {
    }
 };
 
-module.exports = { fetchGames, fetchSingleGame };
+
+const saveTowishList = async(req,res) => {
+  const {id} = req.query
+  try {
+    const response = await axios.get(`https://api.rawg.io/api/games/${id}`, {
+      params: {
+        key: process.env.RAWG_API_KEY,
+      }
+    })
+    console.log(response.data)
+  } catch (error) {
+     res.status(500).json("Failed to save game to wishlist", error)
+  }
+}
+
+module.exports = { fetchGames, fetchSingleGame, saveTowishList };
