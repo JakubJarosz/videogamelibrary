@@ -73,7 +73,9 @@ const saveTowishList = async(req,res) => {
    } else {
       const alreadyAdded = user.wishList.games.some(game => game.id === wishGame.id);
       if (alreadyAdded) {
-       return res.status(200).json("Game already in wishlist")
+        user.wishList.games = user.wishList.games.filter(game => game.id !== wishGame.id);
+        await user.wishList.save();
+        return res.status(200).json("Game removed from wishlist")
       } else {
         user.wishList.games.push(wishGame);
         await user.wishList.save();

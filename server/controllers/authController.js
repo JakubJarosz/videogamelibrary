@@ -81,9 +81,9 @@ const loginUser = async (req, res) => {
 const fetchUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
-      .select("name email theme steamProfile")
+      .select("name email theme steamProfile wishlist")
       .populate("steamProfile", "avatar")
-      // .populate("wishList")
+      .populate("wishList")
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
