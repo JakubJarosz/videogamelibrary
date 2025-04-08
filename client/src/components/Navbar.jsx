@@ -141,7 +141,7 @@ const Navbar = ({
         </Box>
         <Divider />
         <List>
-          {["Home", "Library", "Games"].map((field) => (
+          {["Home", "Library", "Wishlist"].map((field) => (
             <ListItem
               key={field}
               onClick={() =>
@@ -156,7 +156,7 @@ const Navbar = ({
                 <ListItemIcon>
                   {field === "Home" && <HomeIcon />}
                   {field === "Library" && <LocalLibraryIcon />}
-                  {field === "Games" && <GamesIcon />}
+                  {field === "Wishlist" && <GamesIcon />}
                 </ListItemIcon>
                 <ListItemText primary={field} />
               </ListItemButton>

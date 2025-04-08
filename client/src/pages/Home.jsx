@@ -1,13 +1,23 @@
 import React from "react";
 import GamesLibrary from "../components/GamesLibrary";
+import { Box } from "@mui/material";
 
 const Home = () => {
- 
   return (
-    <>
-   <GamesLibrary title={"Best rating"} ordering={"-metacritic"}></GamesLibrary>
-   <GamesLibrary title={"Newly released"} ordering={"-released"}></GamesLibrary>
-    </>
+    <Box
+      sx={{
+        minHeight: "100vh",
+      }}
+    >
+      <GamesLibrary
+        title={"Best rating"}
+        ordering={"-metacritic"}
+      ></GamesLibrary>
+      <GamesLibrary
+        title={"Newly released"}
+        ordering={"-released"}
+      ></GamesLibrary>
+    </Box>
   );
 };
 

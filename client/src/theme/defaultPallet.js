@@ -29,7 +29,7 @@ const darkPalette = {
     main: "#FF9800", 
   },
   background: {
-    default: "#10171E", 
+    default: "#272E33", 
     paper: "#1C1C1C", 
   },
   text: {

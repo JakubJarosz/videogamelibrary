@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Box,
   Grid,
   Typography,
   Card,
@@ -24,15 +25,19 @@ const LibraryOwnedGames = ({
 }) => {
   const navigate = useNavigate();
   return (
+    <Box sx={{
+      minHeight: "100vh",
+    }}>
     <Grid
       container
       spacing={2}
-      sx={{
-        minHeight: "100vh",
-      }}
+      sx={{justifyContent:"center"}}
     >
       <Grid item xs={12}>
-        <Typography variant="h4" sx={{ color: "white" }}>
+        <Typography
+          variant="h4"
+          sx={{ color: (theme) => theme.palette.text.primary }}
+        >
           Owned games:
         </Typography>
       </Grid>
@@ -76,6 +81,7 @@ const LibraryOwnedGames = ({
         </Stack>
       </Grid>
     </Grid>
+    </Box>
   );
 };
 
