@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch} from "react-redux";
-import { fetchUser } from "../state/authSlice";
+import { useSelector} from "react-redux";
 import axios from "axios";
 import {
   Button,
@@ -24,13 +23,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const GamesLibrary = ({ title, ordering }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
   const wishlist = useSelector((state) => state.auth.user?.wishList?.games);
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [favourite, setFavourite] = useState({})
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -67,10 +66,9 @@ const GamesLibrary = ({ title, ordering }) => {
     setLoading(false);
   };
 
-const handleaddToWishlist = async (gameId) => {
+const handleToWishlist = async (gameId) => {
   try {
      await axios.post("/wishlist", {userId, gameId});
-     dispatch(fetchUser())
   } catch (error) {
       console.log(error)
   }
@@ -78,6 +76,13 @@ const handleaddToWishlist = async (gameId) => {
 
 const isGameInWishlist  = (game, wishlist) => {
   return wishlist?.some(wish => wish.name === game.name);
+}
+
+const toggleFavourite = (gameId) => {
+  setFavourite((prev) => ({
+    ...prev,
+    [gameId]: !prev[gameId]
+  }))
 }
 
   return (
@@ -141,8 +146,11 @@ const isGameInWishlist  = (game, wishlist) => {
                     <Button onClick={() => navigate(`/games/${el.id}`)}>
                       Details
                     </Button>
-                    <IconButton onClick={() => handleaddToWishlist(el.id)}>
-                      <FavoriteIcon sx={{color: isGameInWishlist(el, wishlist) ?"red" : "inherit"}}/>
+                    <IconButton onClick={() => {
+                      handleToWishlist(el.id);
+                      toggleFavourite(el.id)
+                    }}>
+                      <FavoriteIcon sx={{color: isGameInWishlist(el, wishlist) || favourite[el.id] ?"red" : "inherit"}}/>
                     </IconButton>
                   </CardActions>
                 </Card>

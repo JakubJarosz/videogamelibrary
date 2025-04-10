@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../state/authSlice";
 import {
   AppBar,
   Box,
@@ -45,6 +46,7 @@ const Navbar = ({
   user,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Box sx={{ display: "flex" }}>
       {/* AppBar */}
@@ -144,13 +146,16 @@ const Navbar = ({
           {["Home", "Library", "Wishlist"].map((field) => (
             <ListItem
               key={field}
-              onClick={() =>
-                field === "Home"
-                  ? navigate("/")
-                  : field === "Library"
-                  ? navigate("/library")
-                  : navigate("/wishlist")
-              }
+              onClick={() => {
+                if (field === "Home") {
+                  navigate("/");
+                } else if (field === "Library") {
+                  navigate("/library");
+                } else if (field === "Wishlist") {
+                  navigate("/wishlist");
+                  dispatch(fetchUser());
+                }
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
