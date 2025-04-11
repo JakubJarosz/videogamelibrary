@@ -21,6 +21,7 @@ const fetchGames = async (req, res) => {
       search,
       ordering,
       exclude_additions,
+      search_precise: true
     };
 
     if (genresQuery) {

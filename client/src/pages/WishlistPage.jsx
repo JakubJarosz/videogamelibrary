@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -17,6 +18,7 @@ import { fetchUser } from "../state/authSlice";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const wishlist = useSelector(
     (state) => state.auth.user?.wishList?.games || []
   );
@@ -67,7 +69,7 @@ const WishlistPage = () => {
                 />
                 <CardContent>
                   <Tooltip title={el.name}>
-                    <Typography noWrap sx={{ cursor: "pointer" }}>
+                    <Typography noWrap sx={{ cursor: "pointer" }} onClick={() => navigate(`/games/${el.id}`)}>
                       {el.name}
                     </Typography>
                   </Tooltip>

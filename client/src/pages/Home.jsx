@@ -11,7 +11,7 @@ const Home = () => {
     >
        <GamesLibrary
         title={"Best rating"}
-        ordering={"updated"}
+        ordering={"-rating"}
         showSearch={true}
       ></GamesLibrary>
       <GamesLibrary

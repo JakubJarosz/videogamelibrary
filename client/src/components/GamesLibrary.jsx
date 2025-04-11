@@ -20,7 +20,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  TextField
+  TextField,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -52,8 +52,22 @@ const GamesLibrary = ({ title, ordering, showSearch }) => {
   const visibleCards = isSmallScreen ? 1 : isMediumScreen ? 2 : 4;
 
   useEffect(() => {
+    if (!showSearch) return;
+
+    const delayDebounce = setTimeout(() => {
+      setPage(1);
+      setIndex(0);
+      fetchGames(1, genre, search);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [genre, search, showSearch]);
+
+  useEffect(() => {
+    if (showSearch) return;
+
     fetchGames(page);
-  }, [page]);
+  }, [page, ordering, showSearch]);
   //pagination logic
   const prevBtn = () => {
     setIndex((prev) => prev - 1);
@@ -65,16 +79,26 @@ const GamesLibrary = ({ title, ordering, showSearch }) => {
     }
     setIndex((prev) => prev + 1);
   };
-  const fetchGames = async (pageNumber) => {
+  const fetchGames = async (
+    pageNumber,
+    selectedGenre = "",
+    searchQuery = ""
+  ) => {
     setLoading(true);
     try {
       const response = await axios.get("/games", {
         params: {
           page: pageNumber,
           ordering: ordering,
+          genres: selectedGenre || undefined,
+          search: searchQuery || undefined,
         },
       });
-      setData((prev) => [...prev, ...response.data.results]);
+      setData((prev) =>
+        pageNumber === 1
+          ? response.data.results
+          : [...prev, ...response.data.results]
+      );
     } catch (error) {
       console.log(error);
     }
@@ -113,12 +137,13 @@ const GamesLibrary = ({ title, ordering, showSearch }) => {
   // form logic
   const handleGenre = (event) => {
     setGenre(event.target.value);
+    setSearch("");
   };
   const handleSearch = (e) => {
-    const {name, value} = e.target
+    const { name, value } = e.target;
     setGenre("");
-    setSearch(value)
-  }
+    setSearch(value);
+  };
   return (
     <>
       {loading ? (
@@ -143,31 +168,38 @@ const GamesLibrary = ({ title, ordering, showSearch }) => {
           {showSearch ? (
             <Grid item container xs={12} justifyContent="space-between">
               <Grid item>
-              <Typography
-                variant="h4"
-                sx={{ color: (theme) => theme.palette.text.primary }}
-              >
-                Browse games
-              </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{ color: (theme) => theme.palette.text.primary }}
+                >
+                  Browse games
+                </Typography>
               </Grid>
               <Grid item>
-              <FormControl sx={{mr:"15px" ,width:"100px"}}>
-                <InputLabel>Genre</InputLabel>
-                <Select value={genre} label="Genre" onChange={handleGenre}>
-                  {genres.map((el) => (<MenuItem value={el.id}>{el.slug}</MenuItem>))}
-                </Select>
-              </FormControl>
-              <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleSearch}/>
+                <FormControl sx={{ mr: "15px", width: "100px" }}>
+                  <InputLabel>Genre</InputLabel>
+                  <Select value={genre} label="Genre" onChange={handleGenre}>
+                    {genres.map((el) => (
+                      <MenuItem value={el.id} key={el.id}>{el.slug}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  value={search}
+                  label="Search"
+                  variant="outlined"
+                  onChange={handleSearch}
+                />
               </Grid>
             </Grid>
           ) : (
             <Grid xs={12}>
-            <Typography
-              variant="h4"
-              sx={{ color: (theme) => theme.palette.text.primary }}
-            >
-              {title}
-            </Typography>
+              <Typography
+                variant="h4"
+                sx={{ color: (theme) => theme.palette.text.primary }}
+              >
+                {title}
+              </Typography>
             </Grid>
           )}
           <Grid item xs={1}>

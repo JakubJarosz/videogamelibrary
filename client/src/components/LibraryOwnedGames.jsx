@@ -24,6 +24,7 @@ const LibraryOwnedGames = ({
   handleOpenModal,
 }) => {
   const navigate = useNavigate();
+  console.log(steam)
   return (
     <Box sx={{
       minHeight: "100vh",
@@ -56,6 +57,7 @@ const LibraryOwnedGames = ({
                   {game.name}
                 </Typography>
               </Tooltip>
+              <Typography variant="">{Math.round(game.playtime_forever/60)} hours in-game</Typography>
             </CardContent>
             <CardActions>
               <Button
