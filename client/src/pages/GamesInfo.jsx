@@ -65,7 +65,7 @@ const GamesInfo = () => {
           }}
         >
           <Grid item xs={12}>
-            <Typography variant="h4">{data.name}</Typography>
+            <Typography variant="h4" sx={{ color: (theme) => theme.palette.text.primary }}>{data.name}</Typography>
           </Grid>
           <Grid item md={7}>
             <Card>

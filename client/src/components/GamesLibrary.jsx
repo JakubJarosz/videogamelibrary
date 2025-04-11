@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import genres from "../data/genres";
 import axios from "axios";
 import {
   Button,
@@ -13,7 +14,13 @@ import {
   IconButton,
   CircularProgress,
   Box,
-  Tooltip
+  Tooltip,
+  Snackbar,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -21,15 +28,24 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const GamesLibrary = ({ title, ordering }) => {
+const GamesLibrary = ({ title, ordering, showSearch }) => {
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user?._id);
   const wishlist = useSelector((state) => state.auth.user?.wishList?.games);
+  //snackbar
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
+  //pagination
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [favourite, setFavourite] = useState({})
+  //wishlist
+  const [favourite, setFavourite] = useState({});
+  //form
+  const [genre, setGenre] = useState("");
+  const [search, setSearch] = useState("");
+  //theme
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -37,9 +53,8 @@ const GamesLibrary = ({ title, ordering }) => {
 
   useEffect(() => {
     fetchGames(page);
-    
   }, [page]);
-
+  //pagination logic
   const prevBtn = () => {
     setIndex((prev) => prev - 1);
   };
@@ -66,25 +81,44 @@ const GamesLibrary = ({ title, ordering }) => {
     setLoading(false);
   };
 
-const handleToWishlist = async (gameId) => {
-  try {
-     await axios.post("/wishlist", {userId, gameId});
-  } catch (error) {
-      console.log(error)
+  //WishliSt logic
+  const handleToWishlist = async (gameId) => {
+    try {
+      await axios.post("/wishlist", { userId, gameId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const isGameInWishlist = (game, wishlist) => {
+    return wishlist?.some((wish) => wish.name === game.name);
+  };
+
+  const toggleFavourite = (gameId) => {
+    setFavourite((prev) => ({
+      ...prev,
+      [gameId]: !prev[gameId],
+    }));
+  };
+
+  //Snackbar logic
+  const handleClick = (msg) => {
+    setSnackMsg(msg);
+    setSnackOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") return;
+    setSnackOpen(false);
+  };
+  // form logic
+  const handleGenre = (event) => {
+    setGenre(event.target.value);
+  };
+  const handleSearch = (e) => {
+    const {name, value} = e.target
+    setGenre("");
+    setSearch(value)
   }
-}
-
-const isGameInWishlist  = (game, wishlist) => {
-  return wishlist?.some(wish => wish.name === game.name);
-}
-
-const toggleFavourite = (gameId) => {
-  setFavourite((prev) => ({
-    ...prev,
-    [gameId]: !prev[gameId]
-  }))
-}
-
   return (
     <>
       {loading ? (
@@ -104,16 +138,41 @@ const toggleFavourite = (gameId) => {
           alignItems="center"
           justifyContent="center"
           spacing={2}
-          sx={{ mb: "70px",
-            
-          }}
+          sx={{ mb: "70px" }}
         >
-          <Grid item xs={12} align="left">
-            <Typography variant="h4" sx={{ color: (theme) => theme.palette.text.primary }}>{title}</Typography>
-          </Grid>
+          {showSearch ? (
+            <Grid item container xs={12} justifyContent="space-between">
+              <Grid item>
+              <Typography
+                variant="h4"
+                sx={{ color: (theme) => theme.palette.text.primary }}
+              >
+                Browse games
+              </Typography>
+              </Grid>
+              <Grid item>
+              <FormControl sx={{mr:"15px" ,width:"100px"}}>
+                <InputLabel>Genre</InputLabel>
+                <Select value={genre} label="Genre" onChange={handleGenre}>
+                  {genres.map((el) => (<MenuItem value={el.id}>{el.slug}</MenuItem>))}
+                </Select>
+              </FormControl>
+              <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleSearch}/>
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid xs={12}>
+            <Typography
+              variant="h4"
+              sx={{ color: (theme) => theme.palette.text.primary }}
+            >
+              {title}
+            </Typography>
+            </Grid>
+          )}
           <Grid item xs={1}>
             <IconButton disabled={index === 0} onClick={prevBtn}>
-              <ArrowBackIosIcon />
+              <ArrowBackIosIcon sx={{ color: index === 0 && "gray" }} />
             </IconButton>
           </Grid>
           <Grid
@@ -137,7 +196,9 @@ const toggleFavourite = (gameId) => {
                   />
                   <CardContent>
                     <Tooltip title={el.name}>
-                    <Typography noWrap sx={{cursor: "pointer"}}>{el.name}</Typography>
+                      <Typography noWrap sx={{ cursor: "pointer" }}>
+                        {el.name}
+                      </Typography>
                     </Tooltip>
                   </CardContent>
                   <CardActions
@@ -146,16 +207,40 @@ const toggleFavourite = (gameId) => {
                     <Button onClick={() => navigate(`/games/${el.id}`)}>
                       Details
                     </Button>
-                    <IconButton onClick={() => {
-                      handleToWishlist(el.id);
-                      toggleFavourite(el.id)
-                    }}>
-                      <FavoriteIcon sx={{color: isGameInWishlist(el, wishlist) || favourite[el.id] ?"red" : "inherit"}}/>
+                    <IconButton
+                      onClick={() => {
+                        handleToWishlist(el.id);
+                        toggleFavourite(el.id);
+                        const message =
+                          !favourite[el.id] && !isGameInWishlist(el, wishlist)
+                            ? "Added to Wishlist"
+                            : "Removed from Wishlist";
+                        handleClick(message);
+                      }}
+                    >
+                      <FavoriteIcon
+                        sx={{
+                          color:
+                            isGameInWishlist(el, wishlist) || favourite[el.id]
+                              ? "red"
+                              : "inherit",
+                        }}
+                      />
                     </IconButton>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
+            <Snackbar
+              open={snackOpen}
+              autoHideDuration={2000}
+              onClose={handleClose}
+              message={snackMsg}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "center",
+              }}
+            />
           </Grid>
           <Grid item xs={1}>
             <IconButton onClick={nextBtn}>

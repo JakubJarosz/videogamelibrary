@@ -9,6 +9,11 @@ const Home = () => {
         minHeight: "100vh",
       }}
     >
+       <GamesLibrary
+        title={"Best rating"}
+        ordering={"updated"}
+        showSearch={true}
+      ></GamesLibrary>
       <GamesLibrary
         title={"Best rating"}
         ordering={"-metacritic"}
