@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const SteamProfileSchema = new Schema({
+const steamProfileSchema = new Schema({
   steamId: {type: String, unique: true, required: true},
   nickname: String,
   country: String,
@@ -25,6 +25,6 @@ const SteamProfileSchema = new Schema({
   ]
 });
 
-const SteamProfileModel = mongoose.model("SteamProfile", SteamProfileSchema);
+const steamProfileModel = mongoose.model("SteamProfile", steamProfileSchema);
 
-module.exports = SteamProfileModel
+module.exports = steamProfileModel
