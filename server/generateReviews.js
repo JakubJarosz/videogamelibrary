@@ -39,7 +39,7 @@ const addRandomReviews = async(userId) => {
       for (let i = 0; i < 10; i++) {
         reviews.push(generateRandomReviews(game.appid))
       }
-     await Reviews.insertMany(reviews);
+      await Reviews.create({ reviews });
      console.log(`Added ${reviews.length} reviews for game: ${game.name}`)
     }
     console.log("Random reviews added successfully")
