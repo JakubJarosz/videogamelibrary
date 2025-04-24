@@ -6,6 +6,7 @@ const reviewsSchema = new Schema({
         {
             gameId: Number,
             userName: String,
+            avatar: String,
             rating: Number,
             title: String,
             description: String,

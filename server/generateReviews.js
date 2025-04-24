@@ -23,6 +23,7 @@ const generateRandomReviews = (gameId) => {
    return {
     gameId,
     userName: faker.person.firstName(),
+    avatar: faker.image.avatar(),
     rating: Math.floor(Math.random() * 5) + 1,
     title: faker.lorem.words(3),
     description: faker.lorem.sentences(3),
