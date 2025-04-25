@@ -18,7 +18,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import GamesInfo from "./pages/GamesInfo";
 import Library from "./pages/Library";
 import WishlistPage from "./pages/WishlistPage";
-
+import Reviews from "./pages/Reviews"
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -89,6 +89,14 @@ function App() {
             element={
               <PrivateRoute>
                 <WishlistPage />
+              </PrivateRoute>
+            }
+          />
+             <Route
+            path="/reviews"
+            element={
+              <PrivateRoute>
+                <Reviews />
               </PrivateRoute>
             }
           />
