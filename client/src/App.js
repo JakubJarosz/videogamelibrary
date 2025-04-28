@@ -93,7 +93,7 @@ function App() {
             }
           />
              <Route
-            path="/reviews"
+            path="/reviews/:id"
             element={
               <PrivateRoute>
                 <Reviews />

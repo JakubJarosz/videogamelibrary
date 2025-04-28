@@ -24,7 +24,6 @@ const LibraryOwnedGames = ({
   handleOpenModal,
 }) => {
   const navigate = useNavigate();
-  console.log(steam)
   return (
     <Box sx={{
       minHeight: "100vh",
@@ -68,6 +67,7 @@ const LibraryOwnedGames = ({
               >
                 achievements
               </Button>
+              <Button onClick={() => navigate(`/reviews/${game.appid}`)}>Review</Button>
             </CardActions>
           </Card>
         </Grid>
