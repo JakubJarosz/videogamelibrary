@@ -47,7 +47,7 @@ const Reviews = () => {
         alignItems="flex-start"
         textAlign={{ xs: "center"}}
       >
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <Box
             sx={{
               borderRadius: 2,
@@ -70,7 +70,7 @@ const Reviews = () => {
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <Box
             sx={{
               maxHeight: "70vh",
@@ -105,7 +105,7 @@ const Reviews = () => {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
-                            maxWidth: "200px",
+                            maxWidth: "340px",
                             cursor: "default",
                           }}
                         >

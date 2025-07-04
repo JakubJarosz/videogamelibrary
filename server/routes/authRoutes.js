@@ -4,7 +4,7 @@ const cors = require("cors");
 const {
   fetchGames,
   fetchSingleGame,
-  saveTowishList
+  saveTowishList,
 } = require("../controllers/fetchgamesController");
 const {
   test,
@@ -20,8 +20,11 @@ const {
   addSteamToDataBase,
   fetchSteamFromDataBase,
 } = require("../controllers/fetchsteamdataController");
-const fetchSteamAchievements = require("../controllers/fetchAchievements")
-const fetchReviews = require("../controllers/reviewsController")
+const fetchSteamAchievements = require("../controllers/fetchAchievements");
+const {
+  fetchReviews,
+  submitReview,
+} = require("../controllers/reviewsController");
 
 //middleare
 router.use(
@@ -46,7 +49,7 @@ router.post("/theme", authenticateUser, changeTheme);
 // RAWG API routes
 router.get("/games", authenticateUser, fetchGames);
 router.get("/game/:id", authenticateUser, fetchSingleGame);
-router.post("/wishlist", authenticateUser, saveTowishList)
+router.post("/wishlist", authenticateUser, saveTowishList);
 
 // Steam API
 router.get("/steamProfile", authenticateUser, fetchSteamProfile);
@@ -55,7 +58,7 @@ router.get("/steamAchievements", authenticateUser, fetchSteamAchievements);
 router.post("/connect-steam", authenticateUser, addSteamToDataBase);
 
 // Reviews
-router.get("/reviews", authenticateUser, fetchReviews)
-
+router.get("/reviews", authenticateUser, fetchReviews);
+router.post("/user-review", authenticateUser, submitReview)
 
 module.exports = router;
