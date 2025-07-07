@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import {
   Avatar,
   Box,
   Grid,
-  Card,
   Stack,
   Button,
-  CardHeader,
-  CardContent,
   Rating,
   TextField,
   List,
@@ -23,8 +20,7 @@ import {
 const Reviews = () => {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
-  const [userRev, setUserRev] = useState({title: "", review: "", rating: 0});
-  const [rating, setRating] = useState(0);
+  const [userRev, setUserRev] = useState({ title: "", review: "", rating: 0 });
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -37,7 +33,7 @@ const Reviews = () => {
     }
   };
   const rev = reviews.filter((el) => el.gameId === Number(id));
-  console.log(rating);
+  console.log(userRev);
   return (
     <Box sx={{ minHeight: "100vh", p: 2 }}>
       <Grid
@@ -45,7 +41,7 @@ const Reviews = () => {
         spacing={4}
         justifyContent="center"
         alignItems="flex-start"
-        textAlign={{ xs: "center"}}
+        textAlign={{ xs: "center" }}
       >
         <Grid item xs={12} md={6}>
           <Box
@@ -59,9 +55,9 @@ const Reviews = () => {
               <TextField label="Title..." fullWidth />
               <TextField label="Review..." multiline minRows={18} fullWidth />
               <Rating
-                value={rating}
+                value={userRev.rating}
                 onChange={(_, newValue) => {
-                  setRating(newValue);
+                  setUserRev({...userRev, rating: newValue || 0});
                 }}
               />
             </Stack>
@@ -80,7 +76,11 @@ const Reviews = () => {
               p: 1,
             }}
           >
-            <Typography variant="h6" gutterBottom sx={{ color: (theme) => theme.palette.text.primary }}> 
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ color: (theme) => theme.palette.text.primary }}
+            >
               Users Reviews
             </Typography>
             <List>
@@ -90,7 +90,7 @@ const Reviews = () => {
                     <Avatar src={el.avatar} />
                   </ListItemAvatar>
                   <ListItemText
-                  sx={{ color: (theme) => theme.palette.text.primary }}
+                    sx={{ color: (theme) => theme.palette.text.primary }}
                     primary={el.userName}
                     secondary={
                       <Tooltip

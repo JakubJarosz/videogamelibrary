@@ -48,4 +48,24 @@ const submitReview = async (req, res) => {
   }
 };
 
-module.exports = { fetchReviews, submitReview };
+const fetchUserReview = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { gameId } = req.params;
+
+    const review = await UserReviews.findOne({
+      user: userId,
+      gameId: Number(gameId),
+    });
+
+    if (!review) {
+      return res.status(404).json({ message: "No review found" });
+    }
+
+    res.status(200).json({ review });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+module.exports = { fetchReviews, submitReview, fetchUserReview };
