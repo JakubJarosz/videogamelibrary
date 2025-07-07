@@ -24,6 +24,7 @@ const fetchSteamAchievements = require("../controllers/fetchAchievements");
 const {
   fetchReviews,
   submitReview,
+  fetchUserReview
 } = require("../controllers/reviewsController");
 
 //middleare
@@ -59,6 +60,7 @@ router.post("/connect-steam", authenticateUser, addSteamToDataBase);
 
 // Reviews
 router.get("/reviews", authenticateUser, fetchReviews);
-router.post("/user-review", authenticateUser, submitReview)
+router.post("/create-review", authenticateUser, submitReview)
+router.get("/user-review", authenticateUser, fetchUserReview)
 
 module.exports = router;

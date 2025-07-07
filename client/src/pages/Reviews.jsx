@@ -20,7 +20,7 @@ import {
 const Reviews = () => {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
-  const [userRev, setUserRev] = useState({ title: "", review: "", rating: 0 });
+  const [userRev, setUserRev] = useState({ title: "", description: "", rating: 0 });
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -33,6 +33,25 @@ const Reviews = () => {
     }
   };
   const rev = reviews.filter((el) => el.gameId === Number(id));
+
+  const handlesubmitReview = async () => {
+    try {
+      await axios.post("/create-review", {
+        gameId: Number(id),
+        title: userRev.title,
+        description: userRev.description,
+        rating: userRev.rating,
+      });
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+
+  const fetchUserReview = async () => {
+    try {
+      const { data } = await axios.get("/user-review");
+    } catch (error) {}
+  };
   console.log(userRev);
   return (
     <Box sx={{ minHeight: "100vh", p: 2 }}>
@@ -52,16 +71,32 @@ const Reviews = () => {
             }}
           >
             <Stack spacing={3}>
-              <TextField label="Title..." fullWidth />
-              <TextField label="Review..." multiline minRows={18} fullWidth />
+              <TextField
+                label="Title..."
+                fullWidth
+                value={userRev.title}
+                onChange={(e) =>
+                  setUserRev({ ...userRev, title: e.target.value })
+                }
+              />
+              <TextField
+                label="Review..."
+                multiline
+                minRows={18}
+                fullWidth
+                value={userRev.description}
+                onChange={(e) =>
+                  setUserRev({ ...userRev, description: e.target.value })
+                }
+              />
               <Rating
                 value={userRev.rating}
                 onChange={(_, newValue) => {
-                  setUserRev({...userRev, rating: newValue || 0});
+                  setUserRev({ ...userRev, rating: newValue || 0 });
                 }}
               />
             </Stack>
-            <Button variant="contained" sx={{ mt: "15px", mb: "9px" }}>
+            <Button variant="contained" sx={{ mt: "15px", mb: "9px" }} onClick={handlesubmitReview}>
               Submit
             </Button>
           </Box>

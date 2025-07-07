@@ -15,7 +15,7 @@ const submitReview = async (req, res) => {
   try {
     const userId = req.user.id;
     const { gameId, title, description, rating } = req.body;
-    if (!gameId || !title || !description || rating) {
+    if (!gameId || !title || !description || !rating) {
       return res.status(400).json({ error: "All field are required" });
     }
     const existingReview = await UserReviews.findOne({ user: userId, gameId });
