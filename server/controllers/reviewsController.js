@@ -51,11 +51,11 @@ const submitReview = async (req, res) => {
 const fetchUserReview = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { gameId } = req.params;
-
+    const { id } = req.params;
+   console.log(id)
     const review = await UserReviews.findOne({
       user: userId,
-      gameId: Number(gameId),
+      gameId: Number(id),
     });
 
     if (!review) {

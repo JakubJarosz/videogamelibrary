@@ -61,6 +61,6 @@ router.post("/connect-steam", authenticateUser, addSteamToDataBase);
 // Reviews
 router.get("/reviews", authenticateUser, fetchReviews);
 router.post("/create-review", authenticateUser, submitReview)
-router.get("/user-review", authenticateUser, fetchUserReview)
+router.get("/user-review/:id", authenticateUser, fetchUserReview)
 
 module.exports = router;

@@ -23,6 +23,7 @@ const Reviews = () => {
   const [userRev, setUserRev] = useState({ title: "", description: "", rating: 0 });
   useEffect(() => {
     fetchReviews();
+    fetchUserReview();
   }, []);
   const fetchReviews = async () => {
     try {
@@ -49,10 +50,13 @@ const Reviews = () => {
 
   const fetchUserReview = async () => {
     try {
-      const { data } = await axios.get("/user-review");
-    } catch (error) {}
+      const { data } = await axios.get(`/user-review/${id}`);
+      console.log(data)
+    } catch (error) {
+      console.error("Error fetching user review:", error);
+    }
   };
-  console.log(userRev);
+  // console.log(userRev);
   return (
     <Box sx={{ minHeight: "100vh", p: 2 }}>
       <Grid
