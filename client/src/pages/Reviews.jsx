@@ -68,6 +68,38 @@ const Reviews = () => {
       >
         <Grid item xs={12} md={6}>
           <Box
+  sx={{
+    borderRadius: 2,
+    boxShadow: 1,
+    p: 2,
+    backgroundColor: (theme) => theme.palette.background.paper,
+  }}
+>
+  <Card sx={{ p: 2 }}>
+    <CardHeader
+      avatar={<Avatar src={existingUserReview?.avatar} />}
+      title={existingUserReview?.userName || "You"}
+      subheader={`Your review for this game`}
+    />
+    <CardContent>
+      <Typography variant="h6" gutterBottom>
+        {existingUserReview?.title}
+      </Typography>
+      <Typography variant="body2" paragraph>
+        {existingUserReview?.description}
+      </Typography>
+      <Rating value={existingUserReview?.rating || 0} readOnly />
+      <Button
+        variant="outlined"
+        sx={{ mt: 2 }}
+        onClick={() => setEditing(true)}
+      >
+        Edit
+      </Button>
+    </CardContent>
+  </Card>
+</Box>
+          {/* <Box
             sx={{
               borderRadius: 2,
               boxShadow: 1,
@@ -103,7 +135,7 @@ const Reviews = () => {
             <Button variant="contained" sx={{ mt: "15px", mb: "9px" }} onClick={handlesubmitReview}>
               Submit
             </Button>
-          </Box>
+          </Box> */}
         </Grid>
         <Grid item xs={12} md={4}>
           <Box
