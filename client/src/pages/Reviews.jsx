@@ -33,7 +33,6 @@ const Reviews = () => {
     description: "",
     rating: 0,
   });
-  const [fetchedUserRev, setFetchedUserRev] = useState({})
   const [existRev, setExistRev] = useState(false);
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
@@ -58,6 +57,8 @@ const Reviews = () => {
         description: userRev.description,
         rating: userRev.rating,
       });
+      setExistRev(true)
+      setEditMode(false)
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -66,7 +67,7 @@ const Reviews = () => {
   const fetchUserReview = async () => {
     try {
       const { data } = await axios.get(`/user-review/${id}`);
-      setFetchedUserRev(data.review);
+      setUserRev(data.review);
       if (data.review) {
         setExistRev(true)
       }
@@ -74,7 +75,7 @@ const Reviews = () => {
       console.error("Error fetching user review:", error);
     }
   };
-  console.log(fetchedUserRev);
+  // console.log(fetchedUserRev);
   return (
     <Box sx={{ minHeight: "100vh", p: 2 }}>
       <Grid
@@ -85,7 +86,7 @@ const Reviews = () => {
         textAlign={{ xs: "center" }}
       >
         <Grid item xs={12} md={6}>
-          {existRev ? (
+          {existRev && !editMode ? (
          <Box
   sx={{
     borderRadius: 2,
@@ -106,14 +107,14 @@ const Reviews = () => {
     />
     <CardContent>
       <Typography variant="h6" gutterBottom>
-        {fetchedUserRev.title}
+        {userRev.title}
       </Typography>
       <Typography variant="body2" paragraph>
-        {fetchedUserRev.description}
+        {userRev.description}
       </Typography>
 
       <Stack spacing={2}>
-        <Rating value={fetchedUserRev.rating} readOnly />
+        <Rating value={userRev.rating} readOnly />
         <Button variant="outlined" onClick={() => setEditMode(true)}>
           Edit
         </Button>
