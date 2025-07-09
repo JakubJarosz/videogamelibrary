@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   Avatar,
   Box,
   Grid,
+  Card,
+  CardContent,
+  CardHeader,
   Stack,
+  TextField,
   Button,
   Rating,
-  TextField,
   List,
   ListItem,
   ListItemAvatar,
@@ -19,8 +23,19 @@ import {
 
 const Reviews = () => {
   const { id } = useParams();
+  const avatar = useSelector(
+    (state) => state.auth.user?.steamProfile?.avatar || ""
+  );
+  const user = useSelector((state) => state.auth.user?.name)
   const [reviews, setReviews] = useState([]);
-  const [userRev, setUserRev] = useState({ title: "", description: "", rating: 0 });
+  const [userRev, setUserRev] = useState({
+    title: "",
+    description: "",
+    rating: 0,
+  });
+  const [fetchedUserRev, setFetchedUserRev] = useState({})
+  const [existRev, setExistRev] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   useEffect(() => {
     fetchReviews();
     fetchUserReview();
@@ -51,12 +66,15 @@ const Reviews = () => {
   const fetchUserReview = async () => {
     try {
       const { data } = await axios.get(`/user-review/${id}`);
-      console.log(data)
+      setFetchedUserRev(data.review);
+      if (data.review) {
+        setExistRev(true)
+      }
     } catch (error) {
       console.error("Error fetching user review:", error);
     }
   };
-  // console.log(userRev);
+  console.log(fetchedUserRev);
   return (
     <Box sx={{ minHeight: "100vh", p: 2 }}>
       <Grid
@@ -67,7 +85,8 @@ const Reviews = () => {
         textAlign={{ xs: "center" }}
       >
         <Grid item xs={12} md={6}>
-          <Box
+          {existRev ? (
+         <Box
   sx={{
     borderRadius: 2,
     boxShadow: 1,
@@ -77,65 +96,74 @@ const Reviews = () => {
 >
   <Card sx={{ p: 2 }}>
     <CardHeader
-      avatar={<Avatar src={existingUserReview?.avatar} />}
-      title={existingUserReview?.userName || "You"}
-      subheader={`Your review for this game`}
+      avatar={<Avatar src={avatar} />}
+      title={
+        <Typography variant="subtitle1" fontWeight="bold">
+          {user}
+        </Typography>
+      }
+      subheader="Your review for this game"
     />
     <CardContent>
       <Typography variant="h6" gutterBottom>
-        {existingUserReview?.title}
+        {fetchedUserRev.title}
       </Typography>
       <Typography variant="body2" paragraph>
-        {existingUserReview?.description}
+        {fetchedUserRev.description}
       </Typography>
-      <Rating value={existingUserReview?.rating || 0} readOnly />
-      <Button
-        variant="outlined"
-        sx={{ mt: 2 }}
-        onClick={() => setEditing(true)}
-      >
-        Edit
-      </Button>
+
+      <Stack spacing={2}>
+        <Rating value={fetchedUserRev.rating} readOnly />
+        <Button variant="outlined" onClick={() => setEditMode(true)}>
+          Edit
+        </Button>
+      </Stack>
     </CardContent>
   </Card>
 </Box>
-          {/* <Box
-            sx={{
-              borderRadius: 2,
-              boxShadow: 1,
-              p: 1,
-            }}
-          >
-            <Stack spacing={3}>
-              <TextField
-                label="Title..."
-                fullWidth
-                value={userRev.title}
-                onChange={(e) =>
-                  setUserRev({ ...userRev, title: e.target.value })
-                }
-              />
-              <TextField
-                label="Review..."
-                multiline
-                minRows={18}
-                fullWidth
-                value={userRev.description}
-                onChange={(e) =>
-                  setUserRev({ ...userRev, description: e.target.value })
-                }
-              />
-              <Rating
-                value={userRev.rating}
-                onChange={(_, newValue) => {
-                  setUserRev({ ...userRev, rating: newValue || 0 });
-                }}
-              />
-            </Stack>
-            <Button variant="contained" sx={{ mt: "15px", mb: "9px" }} onClick={handlesubmitReview}>
-              Submit
-            </Button>
-          </Box> */}
+          ) : (
+            <Box
+              sx={{
+                borderRadius: 2,
+                boxShadow: 1,
+                p: 1,
+              }}
+            >
+              <Stack spacing={3}>
+                <TextField
+                  label="Title..."
+                  fullWidth
+                  value={userRev.title}
+                  onChange={(e) =>
+                    setUserRev({ ...userRev, title: e.target.value })
+                  }
+                />
+                <TextField
+                  label="Review..."
+                  multiline
+                  minRows={18}
+                  fullWidth
+                  value={userRev.description}
+                  onChange={(e) =>
+                    setUserRev({ ...userRev, description: e.target.value })
+                  }
+                />
+                <Rating
+                  value={userRev.rating}
+                  onChange={(_, newValue) => {
+                    setUserRev({ ...userRev, rating: newValue || 0 });
+                  }}
+                />
+              </Stack>
+              <Button
+                variant="contained"
+                sx={{ mt: "15px", mb: "9px" }}
+                onClick={handlesubmitReview}
+              >
+                Submit
+              </Button>
+            </Box>
+          )}
         </Grid>
         <Grid item xs={12} md={4}>
           <Box
