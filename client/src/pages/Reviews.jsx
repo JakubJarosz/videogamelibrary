@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -26,7 +27,7 @@ const Reviews = () => {
   const avatar = useSelector(
     (state) => state.auth.user?.steamProfile?.avatar || ""
   );
-  const user = useSelector((state) => state.auth.user?.name)
+  const user = useSelector((state) => state.auth.user?.name);
   const [reviews, setReviews] = useState([]);
   const [userRev, setUserRev] = useState({
     title: "",
@@ -57,10 +58,14 @@ const Reviews = () => {
         description: userRev.description,
         rating: userRev.rating,
       });
-      setExistRev(true)
-      setEditMode(false)
+      setExistRev(true);
+      setEditMode(false);
     } catch (error) {
-      console.error("Error submitting review:", error);
+      if (error.response && error.response.status === 400) {
+        toast.error("All fields are required");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -69,7 +74,7 @@ const Reviews = () => {
       const { data } = await axios.get(`/user-review/${id}`);
       setUserRev(data.review);
       if (data.review) {
-        setExistRev(true)
+        setExistRev(true);
       }
     } catch (error) {
       console.error("Error fetching user review:", error);
@@ -87,41 +92,44 @@ const Reviews = () => {
       >
         <Grid item xs={12} md={6}>
           {existRev && !editMode ? (
-         <Box
-  sx={{
-    borderRadius: 2,
-    boxShadow: 1,
-    p: 2,
-    backgroundColor: (theme) => theme.palette.background.paper,
-  }}
->
-  <Card sx={{ p: 2 }}>
-    <CardHeader
-      avatar={<Avatar src={avatar} />}
-      title={
-        <Typography variant="subtitle1" fontWeight="bold">
-          {user}
-        </Typography>
-      }
-      subheader="Your review for this game"
-    />
-    <CardContent>
-      <Typography variant="h6" gutterBottom>
-        {userRev.title}
-      </Typography>
-      <Typography variant="body2" paragraph>
-        {userRev.description}
-      </Typography>
+            <Box
+              sx={{
+                borderRadius: 2,
+                boxShadow: 1,
+                p: 2,
+                backgroundColor: (theme) => theme.palette.background.paper,
+              }}
+            >
+              <Card sx={{ p: 2 }}>
+                <CardHeader
+                  avatar={<Avatar src={avatar} />}
+                  title={
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {user}
+                    </Typography>
+                  }
+                  subheader="Your review for this game"
+                />
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {userRev.title}
+                  </Typography>
+                  <Typography variant="body2" paragraph>
+                    {userRev.description}
+                  </Typography>
 
-      <Stack spacing={2}>
-        <Rating value={userRev.rating} readOnly />
-        <Button variant="outlined" onClick={() => setEditMode(true)}>
-          Edit
-        </Button>
-      </Stack>
-    </CardContent>
-  </Card>
-</Box>
+                  <Stack spacing={2}>
+                    <Rating value={userRev.rating} readOnly />
+                    <Button
+                      variant="outlined"
+                      onClick={() => setEditMode(true)}
+                    >
+                      Edit
+                    </Button>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Box>
           ) : (
             <Box
               sx={{
