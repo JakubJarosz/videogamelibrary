@@ -52,7 +52,6 @@ const fetchUserReview = async (req, res) => {
   try {
     const userId = req.user.id;
     const { id } = req.params;
-   console.log(id)
     const review = await UserReviews.findOne({
       user: userId,
       gameId: Number(id),
