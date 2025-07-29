@@ -28,12 +28,12 @@ const {
 } = require("../controllers/reviewsController");
 
 //middleare
-router.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:3000",
-  })
-);
+// router.use(
+//   cors({
+//     credentials: true,
+//     origin: "http://localhost:3000",
+//   })
+// );
 
 // test route
 router.get("/", test);

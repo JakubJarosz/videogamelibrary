@@ -6,6 +6,23 @@ const { mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser")
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000", // for local development
+  "https://videogamelibrary-1.onrender.com" 
+];
+
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 //database connection
 mongoose
   .connect(process.env.MONGO_URL)
