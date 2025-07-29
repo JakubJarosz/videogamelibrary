@@ -20,7 +20,7 @@ import Library from "./pages/Library";
 import WishlistPage from "./pages/WishlistPage";
 import Reviews from "./pages/Reviews"
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
 function App() {
