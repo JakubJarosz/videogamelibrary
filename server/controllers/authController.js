@@ -2,6 +2,9 @@ const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 
+const test = (req, rest) => {
+  rest.json("test is working");
+};
 
 const registerUser = async (req, res) => {
   try {
