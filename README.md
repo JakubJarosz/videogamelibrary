@@ -42,7 +42,7 @@ A full-stack MERN web app where gamers can explore video games, organize their c
 
 ---
 
-🧪 Getting Started – Local Setup
+## 🧪 Getting Started – Local Setup
 1. Clone the repository:
 bash
 git clone https://github.com/yourusername/videogamelibrary.git
@@ -72,7 +72,7 @@ npm start
 
 ---
 
-🎲 Generating Random Reviews
+## 🎲 Generating Random Reviews
 
 To seed the database with fake reviews for your Steam games:
 1. Make sure a user exists with a connected Steam profile and synced games.
@@ -83,10 +83,25 @@ node generateReviews.js
 
 ---
 
-📸 Screenshots
+## 📸 Screenshots
 ![Register](./client/screenshots/register.png)
 ![Login](./client/screenshots/login.png)
 ![MainPage](./client/screenshots/mainpage.png)
 ![Reveiw](./client/screenshots/reveiw.png)
 ![Wishlist](./client/screenshots/wishlist.png)
 
+---
+
+## 🙌 Acknowledgments
+- Thanks to [RAWG API](https://rawg.io/apidocs) for providing game data.
+- Thanks to [Steam Web API](https://developer.valvesoftware.com/wiki/Steam_Web_API) for Steam integration.
+- Thanks to [faker.js](https://fakerjs.dev) for generating fake reviews.
+- Inspired by modern game libraries like Steam, Epic, and GOG Galaxy.
+
+---
+
+ ## 👤 Author
+
+**JakubJarosz**  
+GitHub: [@JakubJarosz](https://github.com/JakubJarosz)  
+Email: jakubtm165@gmail.com 
