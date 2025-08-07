@@ -84,4 +84,9 @@ node generateReviews.js
 ---
 
 📸 Screenshots
+![Register](./client/screenshots/register.png)
+![Login](./screenshots/steam-games.png)
+![MainPage](./screenshots/reviews.png)
+![Reveiw](./screenshots/reviews.png)
+![Wishlist](./screenshots/reviews.png)
 
