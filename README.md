@@ -87,7 +87,7 @@ node generateReviews.js
 ![Register](./client/screenshots/register.png)
 ![Login](./client/screenshots/login.png)
 ![MainPage](./client/screenshots/mainpage.png)
-![Reveiw](./client/screenshots/reveiw.png)
+![Reveiw](./client/screenshots/review.png)
 ![Wishlist](./client/screenshots/wishlist.png)
 
 ---
